@@ -32,6 +32,7 @@ public final class ProfileStorage implements Listener {
 
     /**
      * Get URL to skin texture
+     *
      * @param playerName Player name
      * @return Found texture or null
      */

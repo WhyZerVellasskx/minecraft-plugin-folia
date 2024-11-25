@@ -18,15 +18,15 @@ public abstract class NMS {
     public static Class<?> getNMSClass(String name) {
         try {
             return Class.forName("net.minecraft.server." + getVersion() + "." + name);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             return null;
         }
     }
 
-    public static Class<?> getCraftBukkitClass(String name, Package pkg){
+    public static Class<?> getCraftBukkitClass(String name, Package pkg) {
         try {
             return Class.forName("org.bukkit.craftbukkit." + getVersion() + pkg.getName() + name);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             return null;
         }
     }
@@ -41,7 +41,7 @@ public abstract class NMS {
         }
     }
 
-    public static int getMinorVersion(){
+    public static int getMinorVersion() {
         if (minorVersion == -1) {
             String ver = getVersion();
             String[] arr = ver.split("_");
@@ -56,7 +56,7 @@ public abstract class NMS {
             Object handle = player.getClass().getMethod("getHandle").invoke(player);
             Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
             playerConnection.getClass().getMethod("sendPacket", packetClass).invoke(playerConnection, packet);
-        } catch(Throwable th) {
+        } catch (Throwable th) {
             Logger.warning("Could not send packet " + packet + " to player " + player.getName());
         }
     }
@@ -70,11 +70,11 @@ public abstract class NMS {
 
         private String name;
 
-        Package(String name){
+        Package(String name) {
             this.name = name;
         }
 
-        public String getName(){
+        public String getName() {
             return name;
         }
     }

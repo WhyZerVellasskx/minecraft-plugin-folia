@@ -17,7 +17,7 @@ public class OpenClickEntity extends Activator {
 
     private final List<EntityData> entityData;
 
-    private OpenClickEntity(List<EntityData> entityData){
+    private OpenClickEntity(List<EntityData> entityData) {
         this.entityData = entityData;
     }
 
@@ -25,12 +25,12 @@ public class OpenClickEntity extends Activator {
     public void onEntityClick(PlayerInteractEntityEvent event) {
         if (!ActivatorUtil.checkHand(event)) return;
 
-        for(EntityData data : entityData) {
-            if(event.getRightClicked().getType().equals(data.getType())){
-                if(data.getName() != null) {
+        for (EntityData data : entityData) {
+            if (event.getRightClicked().getType().equals(data.getType())) {
+                if (data.getName() != null) {
                     String name = Handlers.getPlaceholderHandler().replace(event.getPlayer(), data.getName());
 
-                    if(event.getRightClicked().getName().equalsIgnoreCase(name)){
+                    if (event.getRightClicked().getName().equalsIgnoreCase(name)) {
                         openMenu(event.getRightClicked(), event.getPlayer());
                         return;
                     }

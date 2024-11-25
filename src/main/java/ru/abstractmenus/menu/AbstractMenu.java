@@ -1,5 +1,7 @@
 package ru.abstractmenus.menu;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -34,40 +36,60 @@ public abstract class AbstractMenu implements Menu {
 
     protected final String title;
     protected int size;
+    @Setter
     protected InventoryType type;
 
     private List<Activator> activators;
+    @Setter
     private Activator activatedBy;
+    @Setter
     private Object context;
 
+    @Setter
     private long updateInterval = -1;
     private long lastUpdate;
 
+    @Setter
     protected Rule openRules;
+    @Setter
     protected Actions denyActions;
+    @Setter
     protected Actions preOpenActions;
+    @Setter
     protected Actions openActions;
+    @Setter
     protected Actions postOpenActions;
+    @Setter
     protected Actions closeActions;
+    @Setter
     protected Actions updateActions;
 
     protected Inventory inventory;
     protected Map<Integer, Item> showedItems;
 
+    @Setter
     protected MenuListener openListener;
 
+    @Setter
     protected TypeSlot draggableSlots;
     protected Map<Integer, ItemStack> placedItems;
+    @Getter
     protected ItemStack lastPlaced = ItemUtil.empty();
+    @Getter
     protected ItemStack lastTaken = ItemUtil.empty();
     protected ItemStack lastItem = ItemUtil.empty();
+    @Getter
     protected int lastPlacedSlot = -1;
+    @Getter
     protected int lastTakenSlot = -1;
+    @Setter
     protected Actions onPlaceItem;
+    @Setter
     protected Actions onTakeItem;
+    @Setter
     protected Actions onDragItem;
 
-    public AbstractMenu(String title, int size){
+    public AbstractMenu(String title, int size) {
         this.title = title;
         this.size = size;
     }
@@ -110,7 +132,7 @@ public abstract class AbstractMenu implements Menu {
                 Item item = getItem(s);
 
                 if (item != null) {
-                    if (item instanceof MenuItem && !((MenuItem)item).checkShowRules(player, this))
+                    if (item instanceof MenuItem && !((MenuItem) item).checkShowRules(player, this))
                         return;
 
                     inventory.setItem(s, item.build(player, this));
@@ -140,46 +162,14 @@ public abstract class AbstractMenu implements Menu {
         return draggableSlots.getSlot(player, this);
     }
 
-    public void setDraggableSlots(TypeSlot draggableSlots) {
-        this.draggableSlots = draggableSlots;
-    }
-
     public boolean isDraggable(Player player, int slotIndex) {
         if (draggableSlots == null) return false;
         Slot slot = draggableSlots.getSlot(player, this);
         return SlotUtil.contains(slot, slotIndex);
     }
 
-    public void setOnPlaceItem(Actions onPlaceItem) {
-        this.onPlaceItem = onPlaceItem;
-    }
-
-    public void setOnTakeItem(Actions onTakeItem) {
-        this.onTakeItem = onTakeItem;
-    }
-
-    public void setOnDragItem(Actions onDragItem) {
-        this.onDragItem = onDragItem;
-    }
-
-    public ItemStack getLastPlaced() {
-        return lastPlaced;
-    }
-
-    public ItemStack getLastTaken() {
-        return lastTaken;
-    }
-
     public ItemStack getLastMovedItem() {
         return lastItem;
-    }
-
-    public int getLastPlacedSlot() {
-        return lastPlacedSlot;
-    }
-
-    public int getLastTakenSlot() {
-        return lastTakenSlot;
     }
 
     public ItemStack getPlacedItem(int slot) {
@@ -243,10 +233,10 @@ public abstract class AbstractMenu implements Menu {
         lastPlacedSlot = slot;
 
         if (onPlaceItem != null)
-            onPlaceItem.activate(player, this,null);
+            onPlaceItem.activate(player, this, null);
 
         if (onDragItem != null)
-            onDragItem.activate(player, this,null);
+            onDragItem.activate(player, this, null);
     }
 
     public boolean takeItem(Player player, int slot, int amount) {
@@ -271,82 +261,34 @@ public abstract class AbstractMenu implements Menu {
         lastTakenSlot = slot;
 
         if (onTakeItem != null)
-            onTakeItem.activate(player, this,null);
+            onTakeItem.activate(player, this, null);
 
         if (onDragItem != null)
-            onDragItem.activate(player, this,null);
+            onDragItem.activate(player, this, null);
 
         return true;
     }
 
-    public void setType(InventoryType type) {
-        this.type = type;
-    }
-
-    public void setOpenListener(MenuListener openListener) {
-        this.openListener = openListener;
-    }
-
-    public void setContext(Object ctx) {
-        this.context = ctx;
-    }
-
-    public void setActivatedBy(Activator activator) {
-        this.activatedBy = activator;
-    }
-
     public void setActivators(List<Activator> activators) {
-        for(Activator activator : activators) {
+        for (Activator activator : activators) {
             activator.setTargetMenu(this);
             Events.register(activator);
         }
         this.activators = activators;
     }
 
-    public void setOpenRules(Rule rules){
-        this.openRules = rules;
-    }
-
-    public void setPreOpenActions(Actions preOpenActions) {
-        this.preOpenActions = preOpenActions;
-    }
-
-    public void setOpenActions(Actions actions) {
-        this.openActions = actions;
-    }
-
-    public void setPostOpenActions(Actions postOpenActions) {
-        this.postOpenActions = postOpenActions;
-    }
-
-    public void setCloseActions(Actions actions) {
-        this.closeActions = actions;
-    }
-
-    public void setDenyActions(Actions actions) {
-        this.denyActions = actions;
-    }
-
-    public void setUpdateActions(Actions actions) {
-        this.updateActions = actions;
-    }
-
-    public void setUpdateInterval(long interval) {
-        this.updateInterval = interval;
-    }
-
     @Override
     public void close(Player player, boolean closeInventory) {
-        if(closeInventory)
+        if (closeInventory)
             player.closeInventory();
 
-        if(closeActions != null)
+        if (closeActions != null)
             closeActions.activate(player, this, null);
     }
 
     @Override
     public void update(Player player) {
-        if(isReadyToUpdate(player)) {
+        if (isReadyToUpdate(player)) {
             lastUpdate = TimeUtil.currentTimeTicks();
             if (updateActions != null)
                 updateActions.activate(player, this, null);
@@ -354,7 +296,7 @@ public abstract class AbstractMenu implements Menu {
         }
     }
 
-    protected boolean isReadyToUpdate(Player player){
+    protected boolean isReadyToUpdate(Player player) {
         return updateInterval != -1
                 && player != null
                 && player.isOnline()
@@ -365,7 +307,7 @@ public abstract class AbstractMenu implements Menu {
     public void click(int slot, Player player, ClickType type) {
         Item item = getItem(slot);
 
-        if(item instanceof MenuItem)
+        if (item instanceof MenuItem)
             ((MenuItem) item).doClick(type, this, player);
     }
 
@@ -379,9 +321,9 @@ public abstract class AbstractMenu implements Menu {
         return openRules == null || openRules.check(player, this, null);
     }
 
-    protected int getFreeSlot(){
+    protected int getFreeSlot() {
         ItemStack[] content = inventory.getContents();
-        for (int i = 0; i < content.length; i++){
+        for (int i = 0; i < content.length; i++) {
             if (content[i] == null) return i;
         }
         return -1;
@@ -404,7 +346,7 @@ public abstract class AbstractMenu implements Menu {
             AbstractMenu menu = (AbstractMenu) super.clone();
             menu.showedItems = new HashMap<>();
             return menu;
-        } catch (CloneNotSupportedException e){
+        } catch (CloneNotSupportedException e) {
             return null;
         }
     }

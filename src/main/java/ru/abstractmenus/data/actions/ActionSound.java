@@ -22,7 +22,7 @@ public class ActionSound implements Action {
     private final TypeBool isPublic;
     private final TypeLocation location;
 
-    private ActionSound(TypeEnum<Sound> sound, TypeFloat volume, TypeFloat pitch, TypeBool isPublic, TypeLocation location){
+    private ActionSound(TypeEnum<Sound> sound, TypeFloat volume, TypeFloat pitch, TypeBool isPublic, TypeLocation location) {
         this.sound = sound;
         this.volume = volume;
         this.pitch = pitch;
@@ -32,10 +32,10 @@ public class ActionSound implements Action {
 
     @Override
     public void activate(Player player, Menu menu, Item clickedItem) {
-        if(sound != null){
+        if (sound != null) {
             Location loc = (location != null) ? location.getLocation(player, menu) : player.getLocation();
 
-            if(isPublic.getBool(player, menu) && loc.getWorld() != null){
+            if (isPublic.getBool(player, menu) && loc.getWorld() != null) {
                 loc.getWorld().playSound(loc,
                         sound.getEnum(Sound.class, player, menu),
                         volume.getFloat(player, menu),
@@ -54,7 +54,7 @@ public class ActionSound implements Action {
 
         @Override
         public ActionSound deserialize(Class type, ConfigNode node) throws NodeSerializeException {
-            if (node.isPrimitive()){
+            if (node.isPrimitive()) {
                 String name = node.getString("null");
                 try {
                     return new ActionSound(new TypeEnum<>(Sound.valueOf(name)),
@@ -62,9 +62,9 @@ public class ActionSound implements Action {
                             new TypeFloat(1.0f),
                             new TypeBool(false),
                             null);
-                } catch (IllegalArgumentException e){
+                } catch (IllegalArgumentException e) {
                     if (!StringUtil.contains(name, '%'))
-                        throw new NodeSerializeException(node, "Cannot read sound action with sound name '"+name+"'. Invalid sound name.");
+                        throw new NodeSerializeException(node, "Cannot read sound action with sound name '" + name + "'. Invalid sound name.");
 
                     return new ActionSound(new TypeEnum<>(name),
                             new TypeFloat(1.0f),
@@ -74,7 +74,7 @@ public class ActionSound implements Action {
                 }
             }
 
-            if (node.isMap()){
+            if (node.isMap()) {
                 String name = node.node("name").getString(node.getString());
                 TypeEnum<Sound> sound;
                 TypeFloat volume = new TypeFloat(1.0f);
@@ -84,25 +84,25 @@ public class ActionSound implements Action {
 
                 try {
                     sound = new TypeEnum<>(Sound.valueOf(name));
-                } catch (IllegalArgumentException e1){
+                } catch (IllegalArgumentException e1) {
                     if (!StringUtil.contains(name, '%'))
-                        throw new NodeSerializeException(node, "Cannot read sound action with sound name '"+name+"'. Invalid sound name.");
+                        throw new NodeSerializeException(node, "Cannot read sound action with sound name '" + name + "'. Invalid sound name.");
                     sound = new TypeEnum<>(name);
                 }
 
-                if(node.node("volume").rawValue() != null){
+                if (node.node("volume").rawValue() != null) {
                     volume = node.node("volume").getValue(TypeFloat.class);
                 }
 
-                if(node.node("pitch").rawValue() != null){
+                if (node.node("pitch").rawValue() != null) {
                     pitch = node.node("pitch").getValue(TypeFloat.class);
                 }
 
-                if(node.node("public").rawValue() != null){
+                if (node.node("public").rawValue() != null) {
                     isPublic = node.node("public").getValue(TypeBool.class);
                 }
 
-                if(node.node("location").rawValue() != null){
+                if (node.node("location").rawValue() != null) {
                     location = node.node("location").getValue(TypeLocation.class);
                 }
 

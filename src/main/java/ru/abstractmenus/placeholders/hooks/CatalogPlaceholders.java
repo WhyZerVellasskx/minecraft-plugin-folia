@@ -17,11 +17,16 @@ public class CatalogPlaceholders implements PlaceholderHook {
             GeneratedMenu tmpl = (GeneratedMenu) menu;
 
             switch (placeholder) {
-                case "page": return String.valueOf(tmpl.getPage());
-                case "pages": return String.valueOf(tmpl.getPages());
-                case "page_next": return String.valueOf(tmpl.getPage() + 1);
-                case "page_prev": return String.valueOf(tmpl.getPage() - 1);
-                case "elements": return String.valueOf(tmpl.getSnapshot().size());
+                case "page":
+                    return String.valueOf(tmpl.getPage());
+                case "pages":
+                    return String.valueOf(tmpl.getPages());
+                case "page_next":
+                    return String.valueOf(tmpl.getPage() + 1);
+                case "page_prev":
+                    return String.valueOf(tmpl.getPage() - 1);
+                case "elements":
+                    return String.valueOf(tmpl.getSnapshot().size());
             }
 
             ValueExtractor extractor = tmpl.getCatalog().extractor();

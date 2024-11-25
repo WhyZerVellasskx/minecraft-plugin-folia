@@ -26,18 +26,20 @@ public final class MojangApi {
     private static final Base64.Decoder BASE64_DECODER = Base64.getDecoder();
     private static final JsonParser JSON_PARSER = new JsonParser();
 
-    private MojangApi() { }
+    private MojangApi() {
+    }
 
     public static UUID getUUID(String name) {
         try (InputStream in = new URL(String.format(UUID_URL, name)).openStream()) {
             String jsonString = getLine(in);
 
-            if(jsonString != null && !jsonString.isEmpty()) {
+            if (jsonString != null && !jsonString.isEmpty()) {
                 JsonObject object = JSON_PARSER.parse(jsonString).getAsJsonObject();
                 String uuid = object.get("id").getAsString();
                 return UuidUtil.getUUID(uuid);
             }
-        } catch (IOException ignore) { }
+        } catch (IOException ignore) {
+        }
         return null;
     }
 
@@ -60,7 +62,7 @@ public final class MojangApi {
                     }
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             Logger.warning(String.format("Cannot fetch premium skin of %s: %s", premiumUuid, e.getMessage()));
         }
 
@@ -111,27 +113,27 @@ public final class MojangApi {
         JsonObject json = JSON_PARSER.parse(encoded).getAsJsonObject();
         JsonObject textures = json.get("textures").getAsJsonObject();
 
-        if(textures.entrySet().size() != 0){
+        if (!textures.entrySet().isEmpty()) {
             return textures.get("SKIN").getAsJsonObject().get("url").getAsString();
         }
 
         return null;
     }
 
-    private static String getLine(InputStream in){
+    private static String getLine(InputStream in) {
         if (in == null) return null;
 
         Scanner scanner = new Scanner(in);
         StringBuilder builder = new StringBuilder();
-        while(scanner.hasNext()) builder.append(scanner.next());
+        while (scanner.hasNext()) builder.append(scanner.next());
         return builder.toString();
     }
 
-    private static String clearUUID(UUID uuid){
+    private static String clearUUID(UUID uuid) {
         return uuid.toString().replace("-", "");
     }
 
-    private static UUID generateUUID(String url){
+    private static UUID generateUUID(String url) {
         return UUID.nameUUIDFromBytes(("AbstractMenusProfile:" + url).getBytes(StandardCharsets.UTF_8));
     }
 }

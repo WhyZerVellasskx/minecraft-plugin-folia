@@ -12,7 +12,8 @@ import java.lang.reflect.Method;
 
 public final class Skulls {
 
-    private Skulls() { }
+    private Skulls() {
+    }
 
     public static ItemStack getCustomSkull(String url) {
         GameProfile profile = MojangApi.createProfile(url);

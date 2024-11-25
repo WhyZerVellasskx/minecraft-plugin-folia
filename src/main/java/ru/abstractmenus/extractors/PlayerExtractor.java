@@ -10,7 +10,7 @@ public class PlayerExtractor implements ValueExtractor {
 
     @Override
     public String extract(Object obj, String placeholder) {
-        return (obj instanceof Player && ((Player)obj).isOnline())
+        return (obj instanceof Player && ((Player) obj).isOnline())
                 ? Handlers.getPlaceholderHandler().replacePlaceholder((Player) obj, placeholder)
                 : "";
     }

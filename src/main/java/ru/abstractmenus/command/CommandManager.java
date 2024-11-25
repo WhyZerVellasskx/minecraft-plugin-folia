@@ -82,7 +82,7 @@ public final class CommandManager {
             List<String> suggestions = cmd.suggest(sender, args);
 
             if (argsArr.length > 0 && suggestions != null) {
-                String last = argsArr[argsArr.length-1];
+                String last = argsArr[argsArr.length - 1];
 
                 return suggestions.stream()
                         .filter(val -> val.startsWith(last))

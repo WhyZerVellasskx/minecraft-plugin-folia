@@ -18,23 +18,23 @@ public class OpenClickItem extends Activator {
 
     private final List<Item> items;
 
-    private OpenClickItem(List<Item> items){
+    private OpenClickItem(List<Item> items) {
         this.items = items;
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent event){
-        if(items != null && event.getItem() != null){
-            if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK){
-                if(ActivatorUtil.checkHand(event)) {
+    public void onInteract(PlayerInteractEvent event) {
+        if (items != null && event.getItem() != null) {
+            if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if (ActivatorUtil.checkHand(event)) {
                     for (Item item : items) {
                         try {
-                            if(item.isSimilar(event.getItem(), event.getPlayer())){
+                            if (item.isSimilar(event.getItem(), event.getPlayer())) {
                                 event.setCancelled(true);
                                 openMenu(event.getItem(), event.getPlayer());
                                 return;
                             }
-                        } catch (Exception e){
+                        } catch (Exception e) {
                             Logger.severe("Cannot execute clickItem activator: " + e.getMessage());
                         }
                     }
@@ -48,7 +48,7 @@ public class OpenClickItem extends Activator {
         return ItemStackExtractor.INSTANCE;
     }
 
-    public static class Serializer implements NodeSerializer<OpenClickItem>{
+    public static class Serializer implements NodeSerializer<OpenClickItem> {
 
         @Override
         public OpenClickItem deserialize(Class type, ConfigNode node) throws NodeSerializeException {

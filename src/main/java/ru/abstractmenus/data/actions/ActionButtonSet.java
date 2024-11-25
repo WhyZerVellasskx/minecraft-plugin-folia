@@ -24,7 +24,7 @@ public class ActionButtonSet implements Action {
     public void activate(Player player, Menu menu, Item clickedItem) {
         for (Item item : items) {
             if (item instanceof InventoryItem) {
-                Slot slot = ((InventoryItem)item).getSlot(player, menu);
+                Slot slot = ((InventoryItem) item).getSlot(player, menu);
                 menu.setItem(slot, item, player);
             }
         }

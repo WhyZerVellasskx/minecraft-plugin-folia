@@ -8,19 +8,19 @@ public abstract class DataType implements Cloneable {
 
     private final String value;
 
-    DataType(String value){
+    DataType(String value) {
         this.value = value;
     }
 
-    public String replaceFor(Player player, Menu menu){
+    public String replaceFor(Player player, Menu menu) {
         return Handlers.getPlaceholderHandler().replace(player, value);
     }
 
-    public String getValue(){
+    public String getValue() {
         return value;
     }
 
-    public static boolean hasPlaceholder(String string){
+    public static boolean hasPlaceholder(String string) {
         return string.contains("%") || (string.contains("${") && string.contains("}"));
     }
 }

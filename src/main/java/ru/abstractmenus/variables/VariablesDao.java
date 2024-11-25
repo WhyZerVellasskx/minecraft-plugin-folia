@@ -66,9 +66,9 @@ public class VariablesDao {
 
     private void executeUpdate(String sql, Object... values) {
         BukkitTasks.runTaskAsync(() -> {
-            try (PreparedStatement statement = connection.prepareStatement(sql)){
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 for (int i = 0; i < values.length; i++) {
-                    statement.setObject(i+1, values[i]);
+                    statement.setObject(i + 1, values[i]);
                 }
                 statement.executeUpdate();
             } catch (SQLException e) {
@@ -79,7 +79,7 @@ public class VariablesDao {
     }
 
     private void execute(String sql) {
-        try (Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             statement.execute(sql);
         } catch (SQLException e) {
             Logger.severe("Cannot create statement:");
@@ -111,6 +111,7 @@ public class VariablesDao {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
             }
-        } catch (Throwable ignore) {}
+        } catch (Throwable ignore) {
+        }
     }
 }

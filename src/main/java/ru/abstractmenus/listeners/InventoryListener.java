@@ -142,7 +142,7 @@ public class InventoryListener implements Listener {
             Menu current = MenuManager.instance().getOpenedMenu(player);
 
             if (closed instanceof AbstractMenu) {
-                ((AbstractMenu)closed).dropPlaced(player);
+                ((AbstractMenu) closed).dropPlaced(player);
             }
 
             if (current != null && current.equals(closed)) {

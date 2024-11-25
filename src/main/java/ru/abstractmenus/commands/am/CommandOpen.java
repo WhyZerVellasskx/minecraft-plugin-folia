@@ -10,34 +10,34 @@ import ru.abstractmenus.api.text.Colors;
 
 public class CommandOpen extends Command {
 
-    public CommandOpen(){
+    public CommandOpen() {
         setUsage(Colors.of("&e/am open <menu> [player]"));
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(args.length > 0){
+        if (args.length > 0) {
             Menu menu = MenuManager.instance().getMenu(args[0]);
 
-            if(menu == null){
-                sender.sendMessage(Colors.of("&cMenu with name '"+args[0]+"' not found."));
+            if (menu == null) {
+                sender.sendMessage(Colors.of("&cMenu with name '" + args[0] + "' not found."));
                 return;
             }
 
-            if(args.length == 2){
+            if (args.length == 2) {
                 Player player = Bukkit.getServer().getPlayer(args[1]);
 
-                if(player != null && player.isOnline()){
+                if (player != null && player.isOnline()) {
                     MenuManager.instance().openMenu(player, menu);
-                    sender.sendMessage(Colors.of("&aOpened menu '"+args[0]+"' to player " + player.getName()));
+                    sender.sendMessage(Colors.of("&aOpened menu '" + args[0] + "' to player " + player.getName()));
                     return;
                 }
-                sender.sendMessage(Colors.of("&cPlayer "+args[1]+" not found"));
+                sender.sendMessage(Colors.of("&cPlayer " + args[1] + " not found"));
                 return;
             }
 
-            if(sender instanceof Player){
-                MenuManager.instance().openMenu((Player)sender, menu);
+            if (sender instanceof Player) {
+                MenuManager.instance().openMenu((Player) sender, menu);
                 return;
             }
         }

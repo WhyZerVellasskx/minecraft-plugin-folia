@@ -17,7 +17,8 @@ public final class MiniMessageUtil {
 
     private static Replacer replacer;
 
-    private MiniMessageUtil() {}
+    private MiniMessageUtil() {
+    }
 
     public static void init(MainConfig config) {
         if (config.isUseMiniMessage()) {

@@ -14,8 +14,8 @@ import ru.abstractmenus.menu.AbstractMenu;
 /**
  * removePlaced: [slot]
  * removePlaced: {
- *     slot: [slot]
- *     count: [int]
+ * slot: [slot]
+ * count: [int]
  * }
  */
 public class ActionPlacedItemRemove implements Action {

@@ -17,17 +17,17 @@ public class OpenChatContains extends Activator {
 
     private final List<String> messages;
 
-    private OpenChatContains(List<String> messages){
+    private OpenChatContains(List<String> messages) {
         this.messages = messages;
     }
 
     @EventHandler
-    public void onChat(AsyncChatEvent event){
-        for(String str : messages){
+    public void onChat(AsyncChatEvent event) {
+        for (String str : messages) {
             String msg = Handlers.getPlaceholderHandler().replace(event.getPlayer(), str);
 
             if (event.signedMessage().message().contains(msg)) {
-                BukkitTasks.runTask(()->openMenu(null, event.getPlayer()));
+                BukkitTasks.runTask(() -> openMenu(null, event.getPlayer()));
                 return;
             }
         }

@@ -23,11 +23,11 @@ public class ActionBar_1_8 extends ActionBar {
 
     @Override
     public void send(Player player, String message) {
-        try{
+        try {
             Object chatComponentText = chatComponentConstructor.invoke(message);
             Object packet = packetConstructor.invoke(chatComponentText, (byte) 2);
             sendPacket(player, packet);
-        } catch (Throwable e){
+        } catch (Throwable e) {
             Logger.severe("Cannot send actionbar message: " + e.getMessage());
         }
 

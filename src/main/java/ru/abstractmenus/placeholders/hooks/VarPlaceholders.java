@@ -14,13 +14,13 @@ public class VarPlaceholders {
         public String replace(String placeholder, Player player) {
             String[] arr = placeholder.split(":");
 
-            if(arr.length > 1){
+            if (arr.length > 1) {
                 String[] data = arr[1].split("\\.");
                 Var var = null;
 
-                if(data.length == 1){
+                if (data.length == 1) {
                     var = VariableManagerImpl.instance().getGlobal(data[0]);
-                } else if(data.length == 2){
+                } else if (data.length == 2) {
                     var = VariableManagerImpl.instance().getPersonal(data[0], data[1]);
                 }
 
@@ -37,11 +37,11 @@ public class VarPlaceholders {
 
         @Override
         public String replace(String placeholder, Player player) {
-            if(player == null) return null;
+            if (player == null) return null;
 
             String[] arr = placeholder.split(":");
 
-            if(arr.length > 1){
+            if (arr.length > 1) {
                 Var var = VariableManagerImpl.instance().getPersonal(player.getName(), arr[1]);
                 return var != null ? var.value() : (arr.length == 3 ? arr[2] : "");
             }
@@ -57,7 +57,7 @@ public class VarPlaceholders {
         public String replace(String placeholder, Player player) {
             String[] arr = placeholder.split(":");
 
-            if(arr.length > 1) {
+            if (arr.length > 1) {
                 return getVarTime(VariableManagerImpl.instance().getGlobal(arr[1]));
             }
 
@@ -69,11 +69,11 @@ public class VarPlaceholders {
 
         @Override
         public String replace(String placeholder, Player player) {
-            if(player == null) return null;
+            if (player == null) return null;
 
             String[] arr = placeholder.split(":");
 
-            if(arr.length > 1){
+            if (arr.length > 1) {
                 return getVarTime(VariableManagerImpl.instance().getPersonal(player.getName(), arr[1]));
             }
 
@@ -81,7 +81,7 @@ public class VarPlaceholders {
         }
     }
 
-    private static String getVarTime(Var var){
+    private static String getVarTime(Var var) {
         return TimeUtil.getTimeString((var != null) ? var.expiry() - System.currentTimeMillis() : 0L);
     }
 

@@ -30,7 +30,7 @@ public class ActionPlaceItem implements Action {
 
         for (Item item : items) {
             if (item instanceof InventoryItem) {
-                Slot slot = ((InventoryItem)item).getSlot(player, menu);
+                Slot slot = ((InventoryItem) item).getSlot(player, menu);
                 ItemStack built = item.build(player, menu);
                 am.placeItemQuiet(player, slot, built);
             }

@@ -13,12 +13,13 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import ru.abstractmenus.api.Activator;
 
 import java.util.List;
+import java.util.Objects;
 
 public class OpenLever extends Activator {
 
     private final List<TypeLocation> location;
 
-    private OpenLever(List<TypeLocation> location){
+    private OpenLever(List<TypeLocation> location) {
         this.location = location;
     }
 
@@ -26,8 +27,8 @@ public class OpenLever extends Activator {
     public void onLeverClick(PlayerInteractEvent event) {
         if (!ActivatorUtil.checkHand(event)) return;
 
-        if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
-                && event.getClickedBlock().getType().equals(Material.LEVER)) {
+        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
+                && Objects.requireNonNull(event.getClickedBlock()).getType().equals(Material.LEVER)) {
             for (TypeLocation loc : location) {
                 if (event.getClickedBlock().getLocation().equals(loc.getLocation(event.getPlayer(), null))) {
                     openMenu(event.getClickedBlock(), event.getPlayer());

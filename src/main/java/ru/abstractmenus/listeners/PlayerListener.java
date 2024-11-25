@@ -11,5 +11,5 @@ public class PlayerListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         MenuManager.instance().getAndRemoveInputAction(event.getPlayer());
     }
-    
+
 }

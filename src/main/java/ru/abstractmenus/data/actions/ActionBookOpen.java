@@ -17,7 +17,7 @@ public class ActionBookOpen extends NMS implements Action {
 
     private final BookData bookData;
 
-    private ActionBookOpen(BookData bookData){
+    private ActionBookOpen(BookData bookData) {
         this.bookData = bookData;
     }
 
