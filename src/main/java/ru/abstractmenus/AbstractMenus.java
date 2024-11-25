@@ -66,7 +66,9 @@ public final class AbstractMenus extends JavaPlugin implements AbstractMenusPlug
 
     private static AbstractMenus instance;
 
+    @Getter
     private CommandManager commandManager;
+    @Getter
     private Metrics metrics;
     private FoliaLib foliaLib;
 
