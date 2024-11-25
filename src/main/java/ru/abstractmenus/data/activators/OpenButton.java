@@ -25,9 +25,10 @@ public class OpenButton extends Activator {
     @EventHandler
     public void onButtonClick(PlayerInteractEvent event) {
         if (!ActivatorUtil.checkHand(event)) return;
+        if (event.getClickedBlock() == null) return;
 
         if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
-                && Objects.requireNonNull(event.getClickedBlock()).getType().toString().contains("BUTTON")) {
+                && (event.getClickedBlock()).getType().toString().contains("BUTTON")) {
 
             for (TypeLocation loc : location) {
                 if (event.getClickedBlock().getLocation().equals(loc.getLocation(event.getPlayer(), null))) {

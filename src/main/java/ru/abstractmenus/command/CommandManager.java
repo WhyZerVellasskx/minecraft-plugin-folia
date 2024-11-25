@@ -33,6 +33,7 @@ public final class CommandManager {
         return commands.get(name.toLowerCase());
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     public void register(Command cmd) {
         CommandWrapper wrapper = new CommandWrapper(cmd.getName(),
                 "AbstractMenus generated command",
@@ -40,7 +41,7 @@ public final class CommandManager {
                 cmd.getAliases(),
                 this);
 
-        commandMap.register(cmd.getName(), plugin.getDescription().getName(), wrapper);
+        commandMap.register(cmd.getName(), plugin.getPluginMeta().getName(), wrapper);
         addCommand(cmd);
     }
 

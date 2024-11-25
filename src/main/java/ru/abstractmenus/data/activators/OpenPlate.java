@@ -25,9 +25,10 @@ public class OpenPlate extends Activator {
     @EventHandler
     public void onPlateEnter(PlayerInteractEvent event) {
         if (!ActivatorUtil.checkHand(event)) return;
+        if (event.getClickedBlock() == null) return;
 
         if (event.getAction().equals(Action.PHYSICAL)) {
-            if (Objects.requireNonNull(event.getClickedBlock()).getType().toString().contains("PLATE")) {
+            if ((event.getClickedBlock()).getType().toString().contains("PLATE")) {
                 for (TypeLocation loc : location) {
                     if (event.getClickedBlock().getLocation().equals(loc.getLocation(event.getPlayer(), null))) {
                         openMenu(event.getClickedBlock(), event.getPlayer());

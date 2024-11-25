@@ -26,9 +26,10 @@ public class OpenLever extends Activator {
     @EventHandler
     public void onLeverClick(PlayerInteractEvent event) {
         if (!ActivatorUtil.checkHand(event)) return;
+        if (event.getClickedBlock() == null) return;
 
         if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
-                && Objects.requireNonNull(event.getClickedBlock()).getType().equals(Material.LEVER)) {
+                && (event.getClickedBlock()).getType().equals(Material.LEVER)) {
             for (TypeLocation loc : location) {
                 if (event.getClickedBlock().getLocation().equals(loc.getLocation(event.getPlayer(), null))) {
                     openMenu(event.getClickedBlock(), event.getPlayer());

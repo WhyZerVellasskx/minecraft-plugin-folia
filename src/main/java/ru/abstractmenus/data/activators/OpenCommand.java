@@ -68,34 +68,17 @@ public class OpenCommand extends Activator {
     private record Handler(OpenCommand activator) implements CommandHandler {
 
         @Override
-            public void handle(CommandSender sender, CommandContext ctx) {
-                if (sender instanceof Player) {
-                    activator.openMenu(ctx, (Player) sender);
-                }
+        public void handle(CommandSender sender, CommandContext ctx) {
+            if (sender instanceof Player player) {
+                activator.openMenu(ctx, player);
             }
         }
 
-//    private static class Handler implements CommandHandler {
-//
-//        private final OpenCommand activator;
-//
-//        public Handler(OpenCommand activator) {
-//            this.activator = activator;
-//        }
-//
-//        @Override
-//        public void handle(CommandSender sender, CommandContext ctx) {
-//            if (sender instanceof Player) {
-//                activator.openMenu(ctx, (Player) sender);
-//            }
-//        }
-//    }
-
-    public static class Serializer implements NodeSerializer<OpenCommand> {
-        @Override
-        public OpenCommand deserialize(Class type, ConfigNode node) throws NodeSerializeException {
-            return new OpenCommand(node.getValue(Command.class));
+        public static class Serializer implements NodeSerializer<OpenCommand> {
+            @Override
+            public OpenCommand deserialize(Class type, ConfigNode node) throws NodeSerializeException {
+                return new OpenCommand(node.getValue(Command.class));
+            }
         }
     }
-
 }
