@@ -14,6 +14,7 @@ import ru.abstractmenus.hocon.api.serialize.NodeSerializeException;
 import ru.abstractmenus.hocon.api.serialize.NodeSerializer;
 import ru.abstractmenus.util.bukkit.BukkitTasks;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,14 +47,14 @@ public class ActionCommand implements Action {
         }
 
         if (!consoleCommands.isEmpty()) {
-            for (String command : consoleCommands) {
-                if (command != null) {
-                    String resultCommand = isIgnorePlaceholder ? command : Handlers.getPlaceholderHandler().replace(player, command);
-                    BukkitTasks.runTask(() -> {
+            BukkitTasks.runTask(() -> {
+                for (String command : consoleCommands) {
+                    if (command != null) {
+                        String resultCommand = isIgnorePlaceholder ? command : Handlers.getPlaceholderHandler().replace(player, command);
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), resultCommand);
-                    });
+                    }
                 }
-            }
+            });
         }
     }
 
