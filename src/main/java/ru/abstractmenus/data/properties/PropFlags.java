@@ -1,5 +1,9 @@
 package ru.abstractmenus.data.properties;
 
+import com.google.common.collect.Multimap;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.jetbrains.annotations.Nullable;
 import ru.abstractmenus.datatype.TypeEnum;
 import ru.abstractmenus.hocon.api.ConfigNode;
 import ru.abstractmenus.hocon.api.serialize.NodeSerializeException;
@@ -12,9 +16,7 @@ import ru.abstractmenus.api.inventory.Menu;
 import ru.abstractmenus.api.inventory.ItemProperty;
 import ru.abstractmenus.util.StringUtil;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class PropFlags implements ItemProperty {
 
@@ -37,6 +39,7 @@ public class PropFlags implements ItemProperty {
     @Override
     public void apply(ItemStack itemStack, ItemMeta meta, Player player, Menu menu) {
         for (TypeEnum<ItemFlag> flag : flags){
+            meta.setAttributeModifiers(itemStack.getType().getDefaultAttributeModifiers());
             meta.addItemFlags(flag.getEnum(ItemFlag.class, player, menu));
         }
     }
