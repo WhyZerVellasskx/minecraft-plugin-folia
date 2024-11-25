@@ -1,6 +1,7 @@
 package ru.abstractmenus.data.actions;
 
 
+import com.tcoded.folialib.FoliaLib;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import ru.abstractmenus.AbstractMenus;
@@ -11,6 +12,7 @@ import ru.abstractmenus.api.inventory.Menu;
 import ru.abstractmenus.hocon.api.ConfigNode;
 import ru.abstractmenus.hocon.api.serialize.NodeSerializeException;
 import ru.abstractmenus.hocon.api.serialize.NodeSerializer;
+import ru.abstractmenus.util.bukkit.BukkitTasks;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +49,7 @@ public class ActionCommand implements Action {
             for (String command : consoleCommands) {
                 if (command != null) {
                     String resultCommand = isIgnorePlaceholder ? command : Handlers.getPlaceholderHandler().replace(player, command);
-                    Bukkit.getServer().getGlobalRegionScheduler().execute(AbstractMenus.instance(), () -> {
+                    BukkitTasks.runTask(() -> {
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), resultCommand);
                     });
                 }
