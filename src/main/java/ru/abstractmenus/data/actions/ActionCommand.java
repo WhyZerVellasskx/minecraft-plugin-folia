@@ -5,6 +5,7 @@ import com.tcoded.folialib.FoliaLib;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import ru.abstractmenus.AbstractMenus;
+import ru.abstractmenus.AbstractMenus;
 import ru.abstractmenus.api.Action;
 import ru.abstractmenus.api.Handlers;
 import ru.abstractmenus.api.inventory.Item;
@@ -47,7 +48,7 @@ public class ActionCommand implements Action {
         }
 
         if (!consoleCommands.isEmpty()) {
-            BukkitTasks.runTask(() -> {
+            Bukkit.getServer().getGlobalRegionScheduler().execute(AbstractMenus.instance(), () -> {
                 for (String command : consoleCommands) {
                     if (command != null) {
                         String resultCommand = isIgnorePlaceholder ? command : Handlers.getPlaceholderHandler().replace(player, command);
