@@ -3,6 +3,7 @@ package ru.abstractmenus.data.actions;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import ru.abstractmenus.AbstractMenus;
 import ru.abstractmenus.api.Action;
 import ru.abstractmenus.api.Handlers;
 import ru.abstractmenus.api.inventory.Item;
@@ -46,7 +47,9 @@ public class ActionCommand implements Action {
             for (String command : consoleCommands) {
                 if (command != null) {
                     String resultCommand = isIgnorePlaceholder ? command : Handlers.getPlaceholderHandler().replace(player, command);
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), resultCommand);
+                    Bukkit.getServer().getGlobalRegionScheduler().execute(AbstractMenus.instance(), () -> {
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), resultCommand);
+                    });
                 }
             }
         }
