@@ -5,6 +5,8 @@
 
 AbstractMenus is a GUI plugin for SpigotMC servers that allows server owners and developers to create custom GUIs with ease. The plugin is designed to be user-friendly and easy to use, with a wide range of features and options to customize the GUIs to your liking. The plugin is also highly customizable, allowing you to create GUIs that fit your server's theme and style.
 
+Due to the fact that Mojang often changes things on the server side, and the fact that many servers are often updated to the latest versions at short notice, we have decided to support only a few of the latest versions of Minecraft. We currently support versions from 1.20.6 onwards.
+This allows us to keep the code clean without using a bunch of wrappers for backwards compatibility, and also reduces the time to test the plugin functionality.
 
 ## 🔭Table of contents
 - [Links](#links)
