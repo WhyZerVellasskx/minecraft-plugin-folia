@@ -1,0 +1,61 @@
+name: Report bug
+description: Report a bug in AbstractMenus.
+labels: 'bug:'
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report an AbstractMenus bug! Fill out the form below to provide us with info to help fix the bug.
+        Only use this if you're 100% sure you've found a bug and can reproduce it. If you're looking for general help with AbstractMenus, try the Discord server.
+  - type: input
+    attributes:
+      label: Error log (if applicable)
+      description: If you are reporting a console error, upload any relevant log excerpts to either https://pastebin.com or https://paste.gg or https://gist.github.com, save and the paste the link in this box. If you included those files in the same paste as your startup log, paste the same link here.
+  - type: input
+    attributes:
+      label: Menu configuration
+      description: If problem with open some menu, paste the configuration of this menu. Upload any relevant files to either https://pastebin.com or https://paste.gg or https://gist.github.com, save and the paste the link in this box.
+  - type: textarea
+    attributes:
+      label: Bug description
+      description: Describe roughly what the bug is here.
+      placeholder: |
+        Example: "When add item with HIDE_ENCHANTS, the enchants is not hidden."
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Provide an example of how to trigger the bug.
+      placeholder: |
+        Example:
+        1. Open menu
+        2. Hover to item
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected behaviour
+      description: Explain what you should expect to happen.
+      placeholder: |
+        Example: "Enchants not visible"
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Actual behaviour
+      description: Explain what actually happens.
+      placeholder: |
+        Example: "Enchants is visible"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional Information
+      description: |
+        In this box, you can attach any relevant screenshots, files and links to Timings/spark profiler reports.
+        You can also include a link to a heapdump if necessary, but please make sure you don't include any private player data in the heapdump.
+        If you suspect this issue is related to a prior issue/PR/commit, please mention it here.
+    validations:
+      required: false
