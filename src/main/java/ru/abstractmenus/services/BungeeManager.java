@@ -20,7 +20,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 public final class BungeeManager implements PluginMessageListener {
-    
+
     private static BungeeManager instance;
 
     private final Plugin plugin;
@@ -35,12 +35,12 @@ public final class BungeeManager implements PluginMessageListener {
     public BungeeManager(Plugin plugin, MainConfig conf) {
         this.plugin = plugin;
 
-        if(conf.isBungeeCord()) {
+        if (conf.isBungeeCord()) {
             plugin.getServer().getMessenger()
                     .registerOutgoingPluginChannel(plugin, "BungeeCord");
             plugin.getServer().getMessenger()
                     .registerOutgoingPluginChannel(plugin, "abstractmenus:main");
-            
+
             plugin.getServer().getMessenger()
                     .registerIncomingPluginChannel(plugin, "BungeeCord", this);
 
@@ -49,10 +49,10 @@ public final class BungeeManager implements PluginMessageListener {
                 startOnlineTimer();
             }
         }
-        
+
         instance = this;
     }
-    
+
     public static BungeeManager instance() {
         return instance;
     }
@@ -62,20 +62,20 @@ public final class BungeeManager implements PluginMessageListener {
     }
 
     public void sendPluginMessage(String... data) {
-       if (plugin.isEnabled()) {
-           Iterator<? extends Player> iterator = Bukkit.getOnlinePlayers().iterator();
+        if (plugin.isEnabled()) {
+            Iterator<? extends Player> iterator = Bukkit.getOnlinePlayers().iterator();
 
-           if (iterator.hasNext()){
-               sendPluginMessage(iterator.next(), data);
-           }
-       }
+            if (iterator.hasNext()) {
+                sendPluginMessage(iterator.next(), data);
+            }
+        }
     }
 
     public void sendPluginMessage(byte[] data) {
         if (plugin.isEnabled()) {
             Iterator<? extends Player> iterator = Bukkit.getOnlinePlayers().iterator();
 
-            if (iterator.hasNext()){
+            if (iterator.hasNext()) {
                 sendPluginMessage(iterator.next(), data);
             }
         }
@@ -83,7 +83,7 @@ public final class BungeeManager implements PluginMessageListener {
 
     public void sendPluginMessage(Player player, String... data) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        for(String line : data){
+        for (String line : data) {
             out.writeUTF(line);
         }
         sendPluginMessage(player, out.toByteArray());
@@ -136,7 +136,8 @@ public final class BungeeManager implements PluginMessageListener {
 
                 return true;
             }
-        } catch (IOException ignore) { }
+        } catch (IOException ignore) {
+        }
 
         return false;
     }
@@ -155,7 +156,7 @@ public final class BungeeManager implements PluginMessageListener {
     }
 
     private void pingTask() {
-        if(getServers().isEmpty()) {
+        if (getServers().isEmpty()) {
             sendPluginMessage("GetServers");
             return;
         }
@@ -174,23 +175,24 @@ public final class BungeeManager implements PluginMessageListener {
     public void onPluginMessageReceived(String channel, @NotNull Player player, @NotNull byte[] bytes) {
         if (!channel.equals("BungeeCord")) return;
 
-        try{
+        try {
             ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
             String subChannel = in.readUTF();
 
             if (subChannel.equals("GetServers")) {
                 String[] servers = in.readUTF().split(",");
 
-                for (String server : servers){
+                for (String server : servers) {
                     this.servers.add(server.trim());
                 }
-            } else if (subChannel.equals("PlayerCount")){
+            } else if (subChannel.equals("PlayerCount")) {
                 try {
                     String server = in.readUTF();
                     int count = in.readInt();
                     playersOnline.put(server, count);
-                } catch (Exception ignore){ }
-            } else if(subChannel.equals("SyncVar") && VariableManagerImpl.instance().isSyncVars()){
+                } catch (Exception ignore) {
+                }
+            } else if (subChannel.equals("SyncVar") && VariableManagerImpl.instance().isSyncVars()) {
                 short len = in.readShort();
                 byte[] data = new byte[len];
                 in.readFully(data);
@@ -201,7 +203,7 @@ public final class BungeeManager implements PluginMessageListener {
                 String key = in.readUTF();
                 String name = key.split(":")[1];
 
-                if (action.equals("save")){
+                if (action.equals("save")) {
                     String value = in.readUTF();
                     long expiry = in.readLong();
 
@@ -212,17 +214,17 @@ public final class BungeeManager implements PluginMessageListener {
                             .build();
 
                     VariableManagerImpl.instance().cache(key, var);
-                } else if (action.equals("delete")){
+                } else if (action.equals("delete")) {
                     VariableManagerImpl.instance().delete(key);
                 }
-            } else if (subChannel.equals("ServerIP")){
+            } else if (subChannel.equals("ServerIP")) {
                 String serverName = in.readUTF();
                 String ip = in.readUTF();
                 int port = in.readUnsignedShort();
 
                 serverAddresses.put(serverName.toLowerCase(), new InetSocketAddress(ip, port));
             }
-        } catch (Throwable t){
+        } catch (Throwable t) {
             Logger.warning("Cannot receive message from BungeeCord:");
             t.printStackTrace();
         }

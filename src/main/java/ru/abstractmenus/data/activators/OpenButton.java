@@ -12,6 +12,7 @@ import ru.abstractmenus.datatype.TypeLocation;
 import ru.abstractmenus.extractors.BlockExtractor;
 
 import java.util.List;
+import java.util.Objects;
 
 public class OpenButton extends Activator {
 
@@ -24,12 +25,13 @@ public class OpenButton extends Activator {
     @EventHandler
     public void onButtonClick(PlayerInteractEvent event) {
         if (!ActivatorUtil.checkHand(event)) return;
+        if (event.getClickedBlock() == null) return;
 
-        if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
-                && event.getClickedBlock().getType().toString().contains("BUTTON")){
+        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
+                && (event.getClickedBlock()).getType().toString().contains("BUTTON")) {
 
             for (TypeLocation loc : location) {
-                if(event.getClickedBlock().getLocation().equals(loc.getLocation(event.getPlayer(), null))){
+                if (event.getClickedBlock().getLocation().equals(loc.getLocation(event.getPlayer(), null))) {
                     openMenu(event.getClickedBlock(), event.getPlayer());
                     return;
                 }

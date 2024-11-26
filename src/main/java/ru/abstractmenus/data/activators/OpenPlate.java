@@ -12,23 +12,25 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import ru.abstractmenus.api.Activator;
 
 import java.util.List;
+import java.util.Objects;
 
 public class OpenPlate extends Activator {
 
     private final List<TypeLocation> location;
 
-    private OpenPlate(List<TypeLocation> location){
+    private OpenPlate(List<TypeLocation> location) {
         this.location = location;
     }
 
     @EventHandler
     public void onPlateEnter(PlayerInteractEvent event) {
         if (!ActivatorUtil.checkHand(event)) return;
+        if (event.getClickedBlock() == null) return;
 
-        if(event.getAction().equals(Action.PHYSICAL)){
-            if(event.getClickedBlock().getType().toString().contains("PLATE")){
+        if (event.getAction().equals(Action.PHYSICAL)) {
+            if (event.getClickedBlock().getType().toString().contains("PLATE")) {
                 for (TypeLocation loc : location) {
-                    if(event.getClickedBlock().getLocation().equals(loc.getLocation(event.getPlayer(), null))){
+                    if (event.getClickedBlock().getLocation().equals(loc.getLocation(event.getPlayer(), null))) {
                         openMenu(event.getClickedBlock(), event.getPlayer());
                         return;
                     }

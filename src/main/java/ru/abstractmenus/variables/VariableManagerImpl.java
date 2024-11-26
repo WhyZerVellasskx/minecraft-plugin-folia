@@ -33,7 +33,7 @@ public final class VariableManagerImpl implements VariableManager {
         this.config = conf;
         dao = new VariablesDao(this);
 
-        if(conf.isUseVariables()) {
+        if (conf.isUseVariables()) {
             dao.init(conf.getDbFolder());
             dao.cacheAll(cache);
             startTimer();
@@ -104,7 +104,9 @@ public final class VariableManagerImpl implements VariableManager {
             name = variable.name();
             try {
                 value = func.apply(variable.doubleValue());
-            } catch (Throwable ignore) { return; }
+            } catch (Throwable ignore) {
+                return;
+            }
         }
 
         variable = createBuilder()
@@ -169,7 +171,8 @@ public final class VariableManagerImpl implements VariableManager {
         if (timerTask != null) {
             try {
                 if (timerTask.isCancelled()) return;
-            } catch (Throwable ignore) {}
+            } catch (Throwable ignore) {
+            }
 
             timerTask.cancel();
         }

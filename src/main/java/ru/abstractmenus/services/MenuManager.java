@@ -57,16 +57,16 @@ public final class MenuManager {
         return instance;
     }
 
-    public Menu getOpenedMenu(Player player){
+    public Menu getOpenedMenu(Player player) {
         return openedMenus.get(player.getUniqueId());
     }
 
-    public Menu getMenu(String name){
+    public Menu getMenu(String name) {
         return menus.get(name.toLowerCase());
     }
 
-    public void addMenu(String name, Menu menu){
-        if(menu != null) {
+    public void addMenu(String name, Menu menu) {
+        if (menu != null) {
             menus.put(name.toLowerCase(), menu);
         }
     }
@@ -78,7 +78,7 @@ public final class MenuManager {
     }
 
     public void stopUpdateTask() {
-        if(updateTask != null) {
+        if (updateTask != null) {
             updateTask.cancel();
             updateTask = null;
         }
@@ -111,18 +111,18 @@ public final class MenuManager {
         closeMenu(player, true);
     }
 
-    public void closeMenu(Player player, boolean closeInventory){
+    public void closeMenu(Player player, boolean closeInventory) {
         Menu menu = removePlayerMenu(player);
 
-        if(menu != null) {
+        if (menu != null) {
             menu.close(player, closeInventory);
         }
     }
 
-    public void refreshMenu(Player player){
+    public void refreshMenu(Player player) {
         Menu opened = getOpenedMenu(player);
 
-        if(opened != null) {
+        if (opened != null) {
             opened.refresh(player);
         }
     }
@@ -160,7 +160,8 @@ public final class MenuManager {
 
         try {
             Bukkit.getOnlinePlayers().forEach(Player::updateCommands);
-        } catch (Throwable ignore) {}
+        } catch (Throwable ignore) {
+        }
 
         Logger.info(String.format("Loaded %d menus", menusCount));
     }
@@ -178,13 +179,13 @@ public final class MenuManager {
                     .build()
                     .load();
         } catch (Throwable t) {
-            Logger.severe("Cannot parse menu file '"+filename+"': " + t.getMessage());
+            Logger.severe("Cannot parse menu file '" + filename + "': " + t.getMessage());
             return 0;
         }
 
         ConfigNode menuList = conf.node("menus");
 
-        if(!menuList.isNull()) {
+        if (!menuList.isNull()) {
             Map<String, ConfigNode> map = menuList.childrenMap();
 
             for (Map.Entry<String, ConfigNode> entry : map.entrySet()) {
@@ -216,7 +217,7 @@ public final class MenuManager {
                             line, filename, ne.getMessage()));
                 }
             } catch (Throwable e) {
-                Logger.severe("Cannot load menu '"+filename+"': " + e.getMessage());
+                Logger.severe("Cannot load menu '" + filename + "': " + e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -251,7 +252,7 @@ public final class MenuManager {
                         return;
                     }
 
-                    for (WatchEvent<?> event: key.pollEvents()) {
+                    for (WatchEvent<?> event : key.pollEvents()) {
                         WatchEvent.Kind<?> kind = event.kind();
 
                         if (kind == StandardWatchEventKinds.OVERFLOW) continue;
@@ -288,10 +289,10 @@ public final class MenuManager {
         for (Menu menu : menus.values()) {
             List<Activator> activators = menu.getActivators();
 
-            if(activators != null) {
+            if (activators != null) {
                 for (Activator activator : activators) {
                     if (activator instanceof OpenCommand) {
-                        Command cmd = ((OpenCommand)activator).getCommand();
+                        Command cmd = ((OpenCommand) activator).getCommand();
 
                         AbstractMenus.instance()
                                 .getCommandManager()
@@ -305,7 +306,7 @@ public final class MenuManager {
     }
 
     private void loadExampleMenus() throws Exception {
-        if(!Files.exists(menuFolder)){
+        if (!Files.exists(menuFolder)) {
             int version = NMS.getMinorVersion();
 
             Files.createDirectory(menuFolder);
@@ -349,8 +350,8 @@ public final class MenuManager {
                 if (Files.isDirectory(path)) {
                     files.addAll(getAllFiles(path));
                 }
-                if("conf".equalsIgnoreCase(FileUtils.getExtension(path.toFile().getName()))){
-                    if(!checkInvisible(path)) {
+                if ("conf".equalsIgnoreCase(FileUtils.getExtension(path.toFile().getName()))) {
+                    if (!checkInvisible(path)) {
                         files.add(path);
                     }
                 }
@@ -363,7 +364,7 @@ public final class MenuManager {
     }
 
     private boolean checkInvisible(Path file) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(file.toFile()))){
+        try (BufferedReader reader = new BufferedReader(new FileReader(file.toFile()))) {
             String line = reader.readLine();
             return line != null && line.trim().equals("#invisible");
         } catch (IOException e) {

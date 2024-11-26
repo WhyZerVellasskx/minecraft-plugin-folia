@@ -22,7 +22,7 @@ public class TypeMaterial extends DataType {
         this.value = value;
     }
 
-    public Material getNative(){
+    public Material getNative() {
         return value;
     }
 
@@ -35,7 +35,7 @@ public class TypeMaterial extends DataType {
 
         try {
             return ItemUtil.getById(Integer.parseInt(replace, 10));
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return Material.getMaterial(replace.toUpperCase());
         }
     }
@@ -45,7 +45,7 @@ public class TypeMaterial extends DataType {
         public TypeMaterial deserialize(Class type, ConfigNode node) throws NodeSerializeException {
             int id = node.getInt(-1);
 
-            if(id != -1) {
+            if (id != -1) {
                 return new TypeMaterial(ItemUtil.getById(id));
             } else {
                 String value = node.getString("AIR");

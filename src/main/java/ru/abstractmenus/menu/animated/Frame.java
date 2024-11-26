@@ -1,6 +1,8 @@
 package ru.abstractmenus.menu.animated;
 
 
+import lombok.Getter;
+import lombok.Setter;
 import ru.abstractmenus.data.Actions;
 import ru.abstractmenus.hocon.api.ConfigNode;
 import ru.abstractmenus.hocon.api.serialize.NodeSerializeException;
@@ -23,41 +25,50 @@ import java.util.Map;
 
 public class Frame {
 
+    @Getter
     private final long delay;
+    @Getter
     private final boolean clear;
 
+    @Setter
     private Rule rules;
+    @Setter
+    @Getter
     private Actions startActions;
+    @Setter
+    @Getter
     private Actions endActions;
 
+    @Setter
+    @Getter
     private List<Item> items;
 
-    private Frame(long delay, boolean clear){
+    private Frame(long delay, boolean clear) {
         this.delay = delay;
         this.clear = clear;
     }
 
-    public Map<Integer, Item> play(Player player, Menu menu){
-        if(items != null && !items.isEmpty()){
-            if(rules != null && !rules.check(player, menu, null)) return null;
+    public Map<Integer, Item> play(Player player, Menu menu) {
+        if (items != null && !items.isEmpty()) {
+            if (rules != null && !rules.check(player, menu, null)) return null;
 
             Map<Integer, Item> allowedItems = new HashMap<>();
 
-            for(Item i : items){
-                if(i != null){
+            for (Item i : items) {
+                if (i != null) {
                     Item item = i.clone();
 
-                    if(item instanceof MenuItem && !((MenuItem) item).checkShowRules(player, menu)) continue;
+                    if (item instanceof MenuItem && !((MenuItem) item).checkShowRules(player, menu)) continue;
 
-                    try{
-                        if(item instanceof InventoryItem){
+                    try {
+                        if (item instanceof InventoryItem) {
                             ItemStack built = item.build(player, menu);
-                            if (built.getAmount() > 0){
+                            if (built.getAmount() > 0) {
                                 Slot slot = ((InventoryItem) item).getSlot(player, menu);
-                                slot.getSlots((s)->allowedItems.put(s, item));
+                                slot.getSlots((s) -> allowedItems.put(s, item));
                             }
                         }
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         Logger.severe("Cannot play frame in animated menu: " + e.getMessage());
                     }
                 }
@@ -67,42 +78,6 @@ public class Frame {
         }
 
         return null;
-    }
-
-    public long getDelay(){
-        return delay;
-    }
-
-    public boolean isClear(){
-        return clear;
-    }
-
-    public List<Item> getItems(){
-        return items;
-    }
-
-    public Actions getStartActions() {
-        return startActions;
-    }
-
-    public Actions getEndActions() {
-        return endActions;
-    }
-
-    public void setRules(Rule rules){
-        this.rules = rules;
-    }
-
-    public void setStartActions(Actions actions){
-        this.startActions = actions;
-    }
-
-    public void setEndActions(Actions actions){
-        this.endActions = actions;
-    }
-
-    public void setItems(List<Item> items){
-        this.items = items;
     }
 
     public static class Serializer implements NodeSerializer<Frame> {

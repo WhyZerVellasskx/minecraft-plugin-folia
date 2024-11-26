@@ -18,7 +18,8 @@ public final class ItemUtil {
     private static MethodHandle getByIdMethod;
     private static final ItemStack EMPTY_ITEM = new ItemStack(Material.AIR, 0);
 
-    private ItemUtil() { }
+    private ItemUtil() {
+    }
 
     public static ItemStack empty() {
         return EMPTY_ITEM;
@@ -39,7 +40,8 @@ public final class ItemUtil {
         try {
             if (getByIdMethod != null)
                 return (Material) getByIdMethod.invoke(id);
-        } catch (Throwable ignore) { }
+        } catch (Throwable ignore) {
+        }
 
         throw new IllegalArgumentException("Could not load material by id. You have to use material names");
     }
@@ -52,7 +54,8 @@ public final class ItemUtil {
 
         try {
             itemTo.setDurability(itemFrom.getDurability());
-        } catch (Throwable ignore) { }
+        } catch (Throwable ignore) {
+        }
 
         itemTo.setAmount(itemFrom.getAmount());
         itemTo.setItemMeta(itemFrom.getItemMeta());

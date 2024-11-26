@@ -22,15 +22,15 @@ public class OpenShiftClickEntity extends Activator {
     }
 
     @EventHandler
-    public void onEntityClick(PlayerInteractEntityEvent event){
+    public void onEntityClick(PlayerInteractEntityEvent event) {
         if (!ActivatorUtil.checkHand(event) || !event.getPlayer().isSneaking()) return;
 
         for (EntityData data : entityData) {
-            if (event.getRightClicked().getType().equals(data.getType())){
-                if (data.getName() != null){
+            if (event.getRightClicked().getType().equals(data.getType())) {
+                if (data.getName() != null) {
                     String name = Handlers.getPlaceholderHandler().replace(event.getPlayer(), data.getName());
 
-                    if (event.getRightClicked().getName().equalsIgnoreCase(name)){
+                    if (event.getRightClicked().getName().equalsIgnoreCase(name)) {
                         openMenu(event.getRightClicked(), event.getPlayer());
                         return;
                     }

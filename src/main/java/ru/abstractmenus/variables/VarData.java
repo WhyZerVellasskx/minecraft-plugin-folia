@@ -1,5 +1,6 @@
 package ru.abstractmenus.variables;
 
+import lombok.Getter;
 import ru.abstractmenus.datatype.TypeBool;
 import ru.abstractmenus.hocon.api.ConfigNode;
 import ru.abstractmenus.hocon.api.serialize.NodeSerializeException;
@@ -7,33 +8,21 @@ import ru.abstractmenus.hocon.api.serialize.NodeSerializer;
 
 public class VarData {
 
+    @Getter
     private final String player;
+    @Getter
     private final String name;
+    @Getter
     private final String value;
     private final TypeBool replace;
+    @Getter
     private final String time;
-
-    public String getPlayer() {
-        return player;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getValue() {
-        return value;
-    }
 
     public TypeBool isReplace() {
         return replace;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    private VarData(String player, String name, String value, TypeBool replace, String time){
+    private VarData(String player, String name, String value, TypeBool replace, String time) {
         this.player = player;
         this.name = name;
         this.value = value;

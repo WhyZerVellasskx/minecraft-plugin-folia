@@ -10,7 +10,7 @@ public class BungeePlaceholders implements PlaceholderHook {
 
     @Override
     public String replace(String placeholder, Player player) {
-        if(placeholder.startsWith("players_")){
+        if (placeholder.startsWith("players_")) {
             String[] arr = placeholder.split("_");
             String server = String.join("_", Arrays.copyOfRange(arr, 2, arr.length));
             return String.valueOf(BungeeManager.instance().getOnline(server));

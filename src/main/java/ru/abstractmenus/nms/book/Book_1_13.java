@@ -22,7 +22,7 @@ public class Book_1_13 extends Book {
         player.getInventory().setItem(slot, book);
 
         ByteBuf buf = Unpooled.buffer(256);
-        buf.setByte(0, (byte)0);
+        buf.setByte(0, (byte) 0);
         buf.writerIndex(1);
 
         try {

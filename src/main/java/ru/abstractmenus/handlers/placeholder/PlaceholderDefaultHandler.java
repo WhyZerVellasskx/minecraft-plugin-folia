@@ -29,7 +29,7 @@ public class PlaceholderDefaultHandler implements PlaceholderHandler {
         String result = str;
         Matcher matcher = pattern.matcher(str);
 
-        while(matcher.find()) {
+        while (matcher.find()) {
             String placeholder = matcher.group(1);
             String[] arr = placeholder.split("_", 2);
 
@@ -38,7 +38,7 @@ public class PlaceholderDefaultHandler implements PlaceholderHandler {
 
                 if (hook != null) {
                     String replaced = hook.replace(arr[1], player);
-                    result = replaced != null ? result.replace("%"+placeholder+"%", replaced) : result;
+                    result = replaced != null ? result.replace("%" + placeholder + "%", replaced) : result;
                 }
             }
         }
@@ -50,7 +50,7 @@ public class PlaceholderDefaultHandler implements PlaceholderHandler {
     public List<String> replace(Player player, List<String> list) {
         List<String> result = new ArrayList<>();
 
-        for (String line : list){
+        for (String line : list) {
             result.add(replace(player, line));
         }
 

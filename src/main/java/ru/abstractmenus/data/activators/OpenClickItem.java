@@ -1,5 +1,8 @@
 package ru.abstractmenus.data.activators;
 
+import lombok.val;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import ru.abstractmenus.api.ValueExtractor;
 import ru.abstractmenus.hocon.api.ConfigNode;
 import ru.abstractmenus.hocon.api.serialize.NodeSerializeException;
@@ -18,26 +21,28 @@ public class OpenClickItem extends Activator {
 
     private final List<Item> items;
 
-    private OpenClickItem(List<Item> items){
+    private OpenClickItem(List<Item> items) {
         this.items = items;
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent event){
-        if(items != null && event.getItem() != null){
-            if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK){
-                if(ActivatorUtil.checkHand(event)) {
-                    for (Item item : items) {
-                        try {
-                            if(item.isSimilar(event.getItem(), event.getPlayer())){
-                                event.setCancelled(true);
-                                openMenu(event.getItem(), event.getPlayer());
-                                return;
-                            }
-                        } catch (Exception e){
-                            Logger.severe("Cannot execute clickItem activator: " + e.getMessage());
-                        }
+    public void onInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        if (items == null) return;
+
+        if (event.getItem() == null) return;
+        if (event.getHand() != EquipmentSlot.HAND) return;
+
+        if (event.getAction().isRightClick()) {
+            for (Item item : items) {
+                try {
+                    if (item.isSimilar(event.getItem(), event.getPlayer())) {
+                        event.setCancelled(true);
+                        openMenu(event.getItem(), event.getPlayer());
+                        return;
                     }
+                } catch (Exception e) {
+                    Logger.severe("Cannot execute clickItem activator: " + e.getMessage());
                 }
             }
         }
@@ -48,7 +53,7 @@ public class OpenClickItem extends Activator {
         return ItemStackExtractor.INSTANCE;
     }
 
-    public static class Serializer implements NodeSerializer<OpenClickItem>{
+    public static class Serializer implements NodeSerializer<OpenClickItem> {
 
         @Override
         public OpenClickItem deserialize(Class type, ConfigNode node) throws NodeSerializeException {

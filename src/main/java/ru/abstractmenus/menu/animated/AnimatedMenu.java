@@ -1,5 +1,6 @@
 package ru.abstractmenus.menu.animated;
 
+import lombok.Setter;
 import org.bukkit.entity.Player;
 import ru.abstractmenus.data.Actions;
 import ru.abstractmenus.menu.SimpleMenu;
@@ -10,14 +11,18 @@ import java.util.*;
 
 public class AnimatedMenu extends SimpleMenu {
 
+    @Setter
     private Actions animStartActions;
+    @Setter
     private Actions animEndActions;
 
+    @Setter
     private List<Frame> frames;
 
     private int currentFrame;
     private long lastPlayTime;
     private boolean endActionsActivated = false;
+    @Setter
     private boolean loop;
 
     public AnimatedMenu(String title, int size) {
@@ -26,7 +31,7 @@ public class AnimatedMenu extends SimpleMenu {
 
     @Override
     public void refresh(Player player) {
-        if(animStartActions != null)
+        if (animStartActions != null)
             animStartActions.activate(player, this, null);
 
         currentFrame = 0;
@@ -39,12 +44,12 @@ public class AnimatedMenu extends SimpleMenu {
     }
 
     @Override
-    public void update(Player player){
-        if(player == null || !player.isOnline()) return;
+    public void update(Player player) {
+        if (player == null || !player.isOnline()) return;
 
-        if(currentFrame >= frames.size()) {
-            if(!loop){
-                if (!endActionsActivated && animEndActions != null){
+        if (currentFrame >= frames.size()) {
+            if (!loop) {
+                if (!endActionsActivated && animEndActions != null) {
                     animEndActions.activate(player, this, null);
                     endActionsActivated = true;
                 }
@@ -56,17 +61,17 @@ public class AnimatedMenu extends SimpleMenu {
 
         Frame frame = frames.get(currentFrame);
 
-        if(TimeUtil.currentTimeTicks() >= lastPlayTime + frame.getDelay()){
+        if (TimeUtil.currentTimeTicks() >= lastPlayTime + frame.getDelay()) {
             Map<Integer, Item> items = frame.play(player, this);
 
-            if(items != null) {
-                if(frame.getStartActions() != null)
+            if (items != null) {
+                if (frame.getStartActions() != null)
                     frame.getStartActions().activate(player, this, null);
 
                 if (updateActions != null)
                     updateActions.activate(player, this, null);
 
-                if(frame.isClear()) {
+                if (frame.isClear()) {
                     showedItems.clear();
                     inventory.clear();
                     placeItems(player);
@@ -74,13 +79,13 @@ public class AnimatedMenu extends SimpleMenu {
 
                 showedItems.putAll(items);
 
-                for (Map.Entry<Integer, Item> entry : items.entrySet()){
-                    if(entry.getKey() >= 0 && entry.getKey() < inventory.getSize()){
+                for (Map.Entry<Integer, Item> entry : items.entrySet()) {
+                    if (entry.getKey() >= 0 && entry.getKey() < inventory.getSize()) {
                         inventory.setItem(entry.getKey(), entry.getValue().build(player, this));
                     }
                 }
 
-                if(frame.getEndActions() != null)
+                if (frame.getEndActions() != null)
                     frame.getEndActions().activate(player, this, null);
             }
 
@@ -95,19 +100,4 @@ public class AnimatedMenu extends SimpleMenu {
         return frame == null ? null : frame.getItems();
     }
 
-    public void setLoop(boolean loop) {
-        this.loop = loop;
-    }
-
-    public void setAnimStartActions(Actions animStartActions) {
-        this.animStartActions = animStartActions;
-    }
-
-    public void setAnimEndActions(Actions animEndActions) {
-        this.animEndActions = animEndActions;
-    }
-
-    public void setFrames(List<Frame> frames){
-        this.frames = frames;
-    }
 }

@@ -5,7 +5,7 @@ import ru.abstractmenus.api.text.Colors;
 
 public class AbstractMenuCommand extends Command {
 
-    public AbstractMenuCommand(String permission){
+    public AbstractMenuCommand(String permission) {
         super(permission);
         setUsage(
                 Colors.of("&7&l\u25B0\u25B0\u25B0\u25B0\u25B0\u25B0\u25B0\u25B0\u25B0\u25B0\u25B0\u25B0 &eAbstractMenus &7&l\u25B0\u25B0\u25B0\u25B0\u25B0\u25B0\u25B0\u25B0\u25B0\u25B0\u25B0\u25B0"),
