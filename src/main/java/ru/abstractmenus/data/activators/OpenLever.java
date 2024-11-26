@@ -29,7 +29,7 @@ public class OpenLever extends Activator {
         if (event.getClickedBlock() == null) return;
 
         if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
-                && (event.getClickedBlock()).getType().equals(Material.LEVER)) {
+                && event.getClickedBlock().getType().equals(Material.LEVER)) {
             for (TypeLocation loc : location) {
                 if (event.getClickedBlock().getLocation().equals(loc.getLocation(event.getPlayer(), null))) {
                     openMenu(event.getClickedBlock(), event.getPlayer());
