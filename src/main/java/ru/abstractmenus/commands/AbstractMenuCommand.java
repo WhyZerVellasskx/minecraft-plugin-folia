@@ -12,7 +12,8 @@ public class AbstractMenuCommand extends Command {
                 Colors.of("&7/am open <menu_name> &e- Open menu with specific name"),
                 Colors.of("&7/am open <menu_name> <player> &e- Open menu with specific name for player"),
                 Colors.of("&7/am reload &e- Reload all menu files. Also close all opened menus for player"),
-                Colors.of("&7/am serve &e- Turn on/off automatic menu reloading if file changed")
+                Colors.of("&7/am serve &e- Turn on/off automatic menu reloading if file changed"),
+                Colors.of("&7/am version &e- show plugin version")
         );
     }
 

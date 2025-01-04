@@ -29,7 +29,6 @@ public class CommandOpen extends Command {
 
                 if (player != null && player.isOnline()) {
                     MenuManager.instance().openMenu(player, menu);
-                    sender.sendMessage(Colors.of("&aOpened menu '" + args[0] + "' to player " + player.getName()));
                     return;
                 }
                 sender.sendMessage(Colors.of("&cPlayer " + args[1] + " not found"));
