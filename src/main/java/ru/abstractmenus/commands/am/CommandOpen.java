@@ -2,7 +2,9 @@ package ru.abstractmenus.commands.am;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import ru.abstractmenus.MainConfig;
 import ru.abstractmenus.services.MenuManager;
 import ru.abstractmenus.commands.Command;
 import ru.abstractmenus.api.inventory.Menu;
@@ -29,8 +31,19 @@ public class CommandOpen extends Command {
 
                 if (player != null && player.isOnline()) {
                     MenuManager.instance().openMenu(player, menu);
+                    MainConfig config = new MainConfig();
+
+                    if ((sender instanceof ConsoleCommandSender) && !config.isLogOpenMenus()) return;
+                    sender.sendMessage(Colors.of(
+                            "&aOpened menu '"
+                            + args[0] + "' to player "
+                            + player.getName())
+                    );
+
                     return;
                 }
+
+
                 sender.sendMessage(Colors.of("&cPlayer " + args[1] + " not found"));
                 return;
             }

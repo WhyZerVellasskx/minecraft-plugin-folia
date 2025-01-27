@@ -35,7 +35,8 @@ public class ActionSound implements Action {
         if (sound != null) {
             Location loc = (location != null) ? location.getLocation(player, menu) : player.getLocation();
 
-            if (isPublic.getBool(player, menu) && loc.getWorld() != null) {
+            if (isPublic.getBool(player, menu)) {
+                loc.getWorld();
                 loc.getWorld().playSound(loc,
                         sound.getEnum(Sound.class, player, menu),
                         volume.getFloat(player, menu),
