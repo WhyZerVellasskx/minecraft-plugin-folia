@@ -27,7 +27,8 @@ buildscript {
 plugins {
     id 'java'
     id 'com.gradleup.shadow' version '8.3.0'
-    id("io.papermc.paperweight.userdev") version "1.7.1" // Check for new versions at https://plugins.gradle.org/plugin/io.papermc.paperweight.userdev
+    id("io.papermc.paperweight.userdev") version "1.7.7"
+    // Check for new versions at https://plugins.gradle.org/plugin/io.papermc.paperweight.userdev
 }
 
 java {
@@ -123,6 +124,7 @@ dependencies {
 
     testCompileOnly 'org.projectlombok:lombok:1.18.32'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 shadowJar {
