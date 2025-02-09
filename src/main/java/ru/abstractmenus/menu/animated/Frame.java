@@ -3,6 +3,7 @@ package ru.abstractmenus.menu.animated;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Material;
 import ru.abstractmenus.data.Actions;
 import ru.abstractmenus.hocon.api.ConfigNode;
 import ru.abstractmenus.hocon.api.serialize.NodeSerializeException;
@@ -63,7 +64,7 @@ public class Frame {
                     try {
                         if (item instanceof InventoryItem) {
                             ItemStack built = item.build(player, menu);
-                            if (built.getAmount() > 0) {
+                            if (built.getAmount() > 0 || Material.AIR.equals(built.getType())) {
                                 Slot slot = ((InventoryItem) item).getSlot(player, menu);
                                 slot.getSlots((s) -> allowedItems.put(s, item));
                             }
