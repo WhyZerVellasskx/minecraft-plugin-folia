@@ -25,6 +25,33 @@ public class OpenSign extends Activator {
         this.text = text;
     }
 
+//    @EventHandler
+//    public void onTableClick(PlayerInteractEvent event) {
+//        if (!ActivatorUtil.checkHand(event)) return;
+//
+//        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+//            Block block = event.getClickedBlock();
+//
+//            if (block == null) return;
+//
+//            if (block.getType().toString().toLowerCase().contains("sign")) {
+//                Sign sign = (Sign) block.getState();
+//                boolean equals = true;
+//
+//                for (int i = 0; i < text.size(); i++) {
+//                    String line = Handlers.getPlaceholderHandler().replace(event.getPlayer(), text.get(i));
+//
+//                    if (!line.equalsIgnoreCase(sign.getLine(i))) {
+//                        equals = false;
+//                    }
+//                }
+//
+//                if (equals)
+//                    openMenu(block, event.getPlayer());
+//            }
+//        }
+//    }
+
     @EventHandler
     public void onTableClick(PlayerInteractEvent event) {
         if (!ActivatorUtil.checkHand(event)) {
