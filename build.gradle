@@ -27,7 +27,8 @@ buildscript {
 plugins {
     id 'java'
     id 'com.gradleup.shadow' version '8.3.0'
-    id("io.papermc.paperweight.userdev") version "1.7.1" // Check for new versions at https://plugins.gradle.org/plugin/io.papermc.paperweight.userdev
+    id("io.papermc.paperweight.userdev") version "1.7.7"
+    // Check for new versions at https://plugins.gradle.org/plugin/io.papermc.paperweight.userdev
 }
 
 java {
@@ -40,7 +41,7 @@ java {
 
 
 group 'ru.abstractmenus'
-version '1.17.4-beta'
+version '1.17.5-beta'
 
 repositories {
     mavenLocal()
@@ -72,7 +73,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT"
+    compileOnly "io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT"
     compileOnly 'org.projectlombok:lombok:1.18.32'
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
 

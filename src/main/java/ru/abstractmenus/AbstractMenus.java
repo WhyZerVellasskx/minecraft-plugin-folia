@@ -136,7 +136,7 @@ public final class AbstractMenus extends JavaPlugin implements AbstractMenusPlug
             new MenuManager(this, config);
 
             registerProviders();
-            registerCommands();
+            registerCommands(config);
 
             Serializers.init(this);
             ItemProps.init();
@@ -199,10 +199,10 @@ public final class AbstractMenus extends JavaPlugin implements AbstractMenusPlug
         getServer().getMessenger().unregisterOutgoingPluginChannel(this, "BungeeCord");
     }
 
-    private void registerCommands() {
+    private void registerCommands(MainConfig config) {
         Command am = new AbstractMenuCommand("am.admin")
                 .addSub("reload", new CommandReload())
-                .addSub("open", new CommandOpen())
+                .addSub("open", new CommandOpen(config))
                 .addSub("serve", new CommandServe())
                 .addSub("version", new CommandPluginVersion());
 
