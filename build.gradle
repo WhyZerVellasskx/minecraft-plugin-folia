@@ -41,7 +41,7 @@ java {
 
 
 group 'ru.abstractmenus'
-version '1.17.5-beta'
+version '1.17.6-beta'
 
 repositories {
     mavenLocal()
