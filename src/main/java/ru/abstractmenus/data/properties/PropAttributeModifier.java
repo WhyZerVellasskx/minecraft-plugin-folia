@@ -15,6 +15,7 @@ import ru.abstractmenus.hocon.api.serialize.NodeSerializeException;
 import ru.abstractmenus.hocon.api.serialize.NodeSerializer;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PropAttributeModifier implements ItemProperty {
@@ -42,28 +43,28 @@ public class PropAttributeModifier implements ItemProperty {
         }
     }
 
+
     public static class Serializer implements NodeSerializer<PropAttributeModifier> {
 
         @Override
         @SuppressWarnings("UnstableApiUsage")
         public PropAttributeModifier deserialize(Class type, ConfigNode node) throws NodeSerializeException {
-            Map<String, ConfigNode> nodes = node.childrenMap();
+            List<ConfigNode> nodes = node.childrenList();
             Map<Attribute, AttributeModifier> map = new HashMap<>();
 
-            for (Map.Entry<String, ConfigNode> entry : nodes.entrySet()) {
+            for (ConfigNode entry : nodes) {
                 try {
-                    Attribute attribute = Registry.ATTRIBUTE.getOrThrow(NamespacedKey.minecraft(entry.getKey().toLowerCase()));
-                    double amount = entry.getValue().node("amount").getDouble(0);
-                    AttributeModifier.Operation operation = AttributeModifier.Operation.valueOf(entry.getValue().node("operation").getString("add_number").toUpperCase());
+                    String modifierType = entry.node("type").getString();
+                    Attribute attribute = Registry.ATTRIBUTE.getOrThrow(NamespacedKey.minecraft(modifierType.toLowerCase()));
+                    double amount = entry.node("amount").getDouble(0);
+                    AttributeModifier.Operation operation = AttributeModifier.Operation.valueOf(entry.node("operation").getString("add_number").toUpperCase());
 
                     EquipmentSlot slot = null;
-                    String slotName = entry.getValue().node("slot").getString(null);
-
+                    String slotName = entry.node("slot").getString(null);
                     if (slotName != null) {
                         try {
                             slot = EquipmentSlot.valueOf(slotName.toUpperCase());
                         } catch (IllegalArgumentException ignored) {
-                            // ignored
                         }
                     }
 
@@ -78,7 +79,7 @@ public class PropAttributeModifier implements ItemProperty {
 
                     map.put(attribute, modifier);
                 } catch (IllegalArgumentException e) {
-                    throw new NodeSerializeException("Invalid attribute or operation: " + entry.getKey(), e);
+                    throw new NodeSerializeException("Invalid attribute or operation: " + e.getMessage(), e);
                 }
             }
 
