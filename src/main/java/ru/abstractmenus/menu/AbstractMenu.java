@@ -2,6 +2,8 @@ package ru.abstractmenus.menu;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -11,18 +13,17 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import ru.abstractmenus.api.Handlers;
+import ru.abstractmenus.api.Activator;
 import ru.abstractmenus.api.Rule;
+import ru.abstractmenus.api.inventory.Item;
+import ru.abstractmenus.api.inventory.Menu;
+import ru.abstractmenus.api.inventory.Slot;
+import ru.abstractmenus.data.Actions;
 import ru.abstractmenus.datatype.TypeSlot;
 import ru.abstractmenus.menu.item.MenuItem;
-import ru.abstractmenus.data.Actions;
-import ru.abstractmenus.api.Activator;
-import ru.abstractmenus.api.inventory.Menu;
-import ru.abstractmenus.api.inventory.Item;
-import ru.abstractmenus.api.inventory.Slot;
-import ru.abstractmenus.util.LegacyMiniMessageUtil;
 import ru.abstractmenus.util.SlotUtil;
 import ru.abstractmenus.util.TimeUtil;
+import ru.abstractmenus.util.adventure.AdventureUtil;
 import ru.abstractmenus.util.bukkit.Events;
 import ru.abstractmenus.util.bukkit.ItemUtil;
 
@@ -330,13 +331,15 @@ public abstract class AbstractMenu implements Menu {
     }
 
     protected void createInventory(Player player, InventoryHolder holder) {
-        String title = Handlers.getPlaceholderHandler().replace(player, this.title);
-        title = LegacyMiniMessageUtil.parseToLegacy(title);
+        TagResolver[] tagResolvers = new TagResolver[] {
+                AdventureUtil.papiTagResolver(player, true),
+        };
 
+        Component titleComponent = AdventureUtil.parseMiniMessage(this.title, tagResolvers);
         if (this.type != null) {
-            this.inventory = Bukkit.createInventory(holder, type, title);
+            this.inventory = Bukkit.createInventory(holder, type, titleComponent);
         } else {
-            this.inventory = Bukkit.createInventory(holder, size, title);
+            this.inventory = Bukkit.createInventory(holder, size, titleComponent);
         }
     }
 

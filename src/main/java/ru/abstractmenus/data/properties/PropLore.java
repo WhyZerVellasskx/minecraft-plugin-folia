@@ -1,17 +1,19 @@
 package ru.abstractmenus.data.properties;
 
-import ru.abstractmenus.hocon.api.ConfigNode;
-import ru.abstractmenus.hocon.api.serialize.NodeSerializeException;
-import ru.abstractmenus.hocon.api.serialize.NodeSerializer;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import ru.abstractmenus.api.inventory.Menu;
 import ru.abstractmenus.api.inventory.ItemProperty;
-import ru.abstractmenus.api.Handlers;
+import ru.abstractmenus.api.inventory.Menu;
 import ru.abstractmenus.api.text.Colors;
-import ru.abstractmenus.util.LegacyMiniMessageUtil;
+import ru.abstractmenus.hocon.api.ConfigNode;
+import ru.abstractmenus.hocon.api.serialize.NodeSerializeException;
+import ru.abstractmenus.hocon.api.serialize.NodeSerializer;
+import ru.abstractmenus.util.adventure.AdventureUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PropLore implements ItemProperty {
@@ -34,9 +36,17 @@ public class PropLore implements ItemProperty {
 
     @Override
     public void apply(ItemStack itemStack, ItemMeta meta, Player player, Menu menu) {
-        List<String> replaced = Handlers.getPlaceholderHandler().replace(player, lore);
-        List<String> formatted = LegacyMiniMessageUtil.parseToLegacy(replaced);
-        meta.setLore(formatted);
+        TagResolver[] tagResolvers = new TagResolver[] {
+                AdventureUtil.papiTagResolver(player, true),
+        };
+
+        List<Component> loreComponents = new ArrayList<>();
+        for (String loreLine : lore) {
+            Component component = AdventureUtil.parseMiniMessage(loreLine, tagResolvers);
+            loreComponents.add(component);
+        }
+
+        meta.lore(loreComponents);
     }
 
     public static class Serializer implements NodeSerializer<PropLore> {

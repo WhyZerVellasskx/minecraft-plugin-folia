@@ -1,16 +1,17 @@
 package ru.abstractmenus.data.properties;
 
-import ru.abstractmenus.hocon.api.ConfigNode;
-import ru.abstractmenus.hocon.api.serialize.NodeSerializeException;
-import ru.abstractmenus.hocon.api.serialize.NodeSerializer;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import ru.abstractmenus.api.inventory.Menu;
 import ru.abstractmenus.api.inventory.ItemProperty;
-import ru.abstractmenus.api.Handlers;
+import ru.abstractmenus.api.inventory.Menu;
 import ru.abstractmenus.api.text.Colors;
-import ru.abstractmenus.util.LegacyMiniMessageUtil;
+import ru.abstractmenus.hocon.api.ConfigNode;
+import ru.abstractmenus.hocon.api.serialize.NodeSerializeException;
+import ru.abstractmenus.hocon.api.serialize.NodeSerializer;
+import ru.abstractmenus.util.adventure.AdventureUtil;
 
 public class PropName implements ItemProperty {
 
@@ -32,10 +33,12 @@ public class PropName implements ItemProperty {
 
     @Override
     public void apply(ItemStack itemStack, ItemMeta meta, Player player, Menu menu) {
-        String replaced = Handlers.getPlaceholderHandler().replace(player, name);
-        String formatted = LegacyMiniMessageUtil.parseToLegacy(replaced);
+        TagResolver[] tagResolvers = new TagResolver[] {
+                AdventureUtil.papiTagResolver(player, true),
+        };
+        Component formatted = AdventureUtil.parseMiniMessage(name, tagResolvers);
 
-        meta.setDisplayName(formatted);
+        meta.displayName(formatted);
     }
 
     public static class Serializer implements NodeSerializer<PropName> {
