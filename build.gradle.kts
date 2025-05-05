@@ -35,6 +35,8 @@ repositories {
     maven("https://maven.enginehub.org/repo/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://mvn.lumine.io/repository/maven-public/")
+    maven("https://maven.citizensnpcs.co/repo")
+    maven("https://nexus.phoenixdevt.fr/repository/maven-public/")
 
     maven("https://repo.codemc.org/repository/maven-public/") {
         metadataSources { artifact() }
@@ -112,7 +114,18 @@ dependencies {
         exclude(group = "org.spigotmc", module = "spigot-api")
     }
 
-    implementation(fileTree("gradle/libs"))
+    compileOnly("net.citizensnpcs:citizens-main:2.0.35-SNAPSHOT") {
+        exclude(group = "*", module = "*")
+    }
+
+    compileOnly("io.lumine:MythicLib-dist:1.6.2-SNAPSHOT") {
+        isTransitive = false
+    }
+
+    compileOnly("net.Indyuce:MMOItems-API:6.9.5-SNAPSHOT") {
+        isTransitive = false
+    }
+
     compileOnly("me.clip:placeholderapi:2.11.6")
 
     // junit tests
