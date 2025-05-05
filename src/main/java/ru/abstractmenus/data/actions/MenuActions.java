@@ -35,7 +35,6 @@ public final class MenuActions {
         Types.registerAction("inventoryClear", ActionInventoryClear.class, new ActionInventoryClear.Serializer());
         Types.registerAction("message", ActionMessage.class, new ActionMessage.Serializer());
         Types.registerAction("broadcast", ActionBroadcast.class, new ActionBroadcast.Serializer());
-        Types.registerAction("miniMessage", ActionMiniMessage.class, new ActionMiniMessage.Serializer());
         Types.registerAction("potionEffect", ActionPotionEffect.class, new ActionPotionEffect.Serializer());
         Types.registerAction("removePotionEffect", ActionPotionEffectRemove.class, new ActionPotionEffectRemove.Serializer());
         Types.registerAction("removeGroup", ActionGroupRemove.class, new ActionGroupRemove.Serializer());
