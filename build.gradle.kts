@@ -1,8 +1,5 @@
 @file:Suppress("VulnerableLibrariesLocal")
 
-import kotlinx.coroutines.flow.combine
-import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
-import net.minecrell.pluginyml.paper.PaperPluginDescription
 import kotlin.io.path.listDirectoryEntries
 
 
@@ -35,6 +32,8 @@ repositories {
     maven("https://maven.enginehub.org/repo/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://mvn.lumine.io/repository/maven-public/")
+    maven("https://maven.citizensnpcs.co/repo")
+    maven("https://nexus.phoenixdevt.fr/repository/maven-public/")
 
     maven("https://repo.codemc.org/repository/maven-public/") {
         metadataSources { artifact() }
@@ -47,6 +46,8 @@ repositories {
     maven("https://repo.codemc.org/repository/maven-releases/") {
         metadataSources { artifact() }
     }
+
+    flatDir { dirs("gradle/libs") }
 }
 
 dependencies {
@@ -73,7 +74,7 @@ dependencies {
     }
 
     // plugin api
-    implementation("com.github.MilkBowl:VaultAPI:1.7") {
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7") {
         exclude(group = "org.bukkit", module = "bukkit")
         exclude(group = "org.spigotmc", module = "spigot-api")
     }
@@ -84,12 +85,12 @@ dependencies {
         exclude(group = "org.spigotmc", module = "spigot-api")
     }
 
-    implementation("net.luckperms:api:5.4") {
+    compileOnly("net.luckperms:api:5.4") {
         exclude(group = "org.bstats", module = "bstats-bukkit")
         exclude(group = "org.spigotmc", module = "spigot-api")
     }
 
-    implementation("com.sk89q.worldguard:worldguard-bukkit:7.0.0") {
+    compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.0") {
         exclude(group = "org.bstats", module = "bstats-bukkit")
         exclude(group = "org.bukkit", module = "bukkit")
         exclude(group = "org.spigotmc", module = "spigot-api")
@@ -100,17 +101,24 @@ dependencies {
         exclude(group = "org.spigotmc", module = "spigot-api")
     }
 
-    implementation("com.github.LoneDev6:api-itemsadder:3.6.1") {
+    compileOnly("com.github.LoneDev6:api-itemsadder:3.6.1") {
         exclude(group = "org.bstats", module = "bstats-bukkit")
         exclude(group = "org.spigotmc", module = "spigot-api")
     }
 
-    implementation("net.skinsrestorer:skinsrestorer-api:15.3.1") {
+    compileOnly("net.skinsrestorer:skinsrestorer-api:15.3.1") {
         exclude(group = "org.bstats", module = "bstats-bukkit")
         exclude(group = "org.spigotmc", module = "spigot-api")
     }
 
-    implementation(fileTree("gradle/libs"))
+    compileOnly("net.citizensnpcs:citizens-main:2.0.35-SNAPSHOT") {
+        exclude(group = "*", module = "*")
+    }
+
+    implementation("io.lumine:MythicLib-dist:1.6.2-SNAPSHOT")
+    implementation("net.Indyuce:MMOItems-API:6.9.5-SNAPSHOT")
+    implementation("org.yaml:snakeyaml:1.22")
+
     compileOnly("me.clip:placeholderapi:2.11.6")
 
     // junit tests
@@ -153,7 +161,9 @@ tasks.shadowJar {
         exclude(dependency("org.slf4j:.*"))
     }
 
-    archiveFileName.set("${project.name}-${project.version}.jar")
+    archiveBaseName.set("AbstractMenus")
+    archiveVersion.set("1.18.0-alpha")
+    destinationDirectory.set(file("build/libs"))
 
     rootDir.resolve("gradle").resolve("relocations.txt").takeIf { it.isFile }?.forEachLine {
         relocate(it, "$pluginPackage.__relocated__.$it")

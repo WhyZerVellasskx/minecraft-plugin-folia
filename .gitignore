@@ -1,4 +1,5 @@
-.gradle
+.gradle/server-plugins
 .idea
 build
 .DS_Strore
+/gradle/server-plugins/
