@@ -98,5 +98,4 @@ org.yaml.snakeyaml
 reactor.adapter
 reactor.core
 reactor.util
-xyz.xenondevs.inventoryaccess
-xyz.xenondevs.invui
+com.tcoded.folialib

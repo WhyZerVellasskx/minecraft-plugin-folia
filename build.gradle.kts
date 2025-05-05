@@ -115,13 +115,9 @@ dependencies {
         exclude(group = "*", module = "*")
     }
 
-    compileOnly("io.lumine:MythicLib-dist:1.6.2-SNAPSHOT") {
-        isTransitive = false
-    }
-
-    compileOnly("net.Indyuce:MMOItems-API:6.9.5-SNAPSHOT") {
-        isTransitive = false
-    }
+    implementation("io.lumine:MythicLib-dist:1.6.2-SNAPSHOT")
+    implementation("net.Indyuce:MMOItems-API:6.9.5-SNAPSHOT")
+    implementation("org.yaml:snakeyaml:1.22")
 
     compileOnly("me.clip:placeholderapi:2.11.6")
 
@@ -137,6 +133,7 @@ dependencies {
     implementation("org.openjdk.nashorn:nashorn-core:15.6")
 
 }
+
 kotlin {
     jvmToolchain(21)
 }
