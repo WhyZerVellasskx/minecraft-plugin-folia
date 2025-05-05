@@ -47,6 +47,8 @@ repositories {
     maven("https://repo.codemc.org/repository/maven-releases/") {
         metadataSources { artifact() }
     }
+
+    flatDir { dirs("gradle/libs") }
 }
 
 dependencies {
