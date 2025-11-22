@@ -62,7 +62,7 @@ public class AdventureUtil {
      * @return The tag resolver.
      */
     public static TagResolver papiTagResolver(Player player, boolean selfClosing) {
-        return TagResolver.resolver("papi", (argumentQueue, _) -> {
+        return TagResolver.resolver("papi", (argumentQueue, ctx) -> {
             if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
                 Logger.info("PlaceholderAPI is missing, unable to resolve <papi> placeholders");
 
