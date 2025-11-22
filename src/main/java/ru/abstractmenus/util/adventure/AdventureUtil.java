@@ -62,20 +62,29 @@ public class AdventureUtil {
      * @return The tag resolver.
      */
     public static TagResolver papiTagResolver(Player player, boolean selfClosing) {
-        return TagResolver.resolver("papi", (argumentQueue, unused) -> {
+        return TagResolver.resolver("papi", (argumentQueue, _) -> {
             if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
                 Logger.info("PlaceholderAPI is missing, unable to resolve <papi> placeholders");
-                return selfClosing ? Tag.selfClosingInserting(Component.text("PlaceholderAPI is missing"))
-                        : Tag.inserting(Component.text("PlaceholderAPI is missing"));
+
+                Component missing = Component.text("PlaceholderAPI is missing");
+                return selfClosing ? Tag.selfClosingInserting(missing) : Tag.inserting(missing);
             }
 
-            String papiPlaceholder = argumentQueue.popOr("use <papi:placeholder>").value();
-            String parsedPlaceholder = PlaceholderAPI.setPlaceholders(player, "%" + papiPlaceholder + "%");
+            StringBuilder stringBuilder = new StringBuilder();
+            while (argumentQueue.hasNext()) {
+                stringBuilder.append(argumentQueue.pop().value());
+            }
 
-            Component componentPlaceholder = parseMiniMessage(parsedPlaceholder);
+            String papiPlaceholder = stringBuilder.toString();
 
-            return selfClosing ? Tag.selfClosingInserting(componentPlaceholder)
-                    : Tag.inserting(componentPlaceholder);
+            if (papiPlaceholder.isEmpty()) {
+                return Tag.selfClosingInserting(Component.text("<papi:placeholder_missing>"));
+            }
+
+            String parsed = PlaceholderAPI.setPlaceholders(player, "%" + papiPlaceholder + "%");
+            Component comp = parseMiniMessage(parsed);
+
+            return selfClosing ? Tag.selfClosingInserting(comp) : Tag.inserting(comp);
         });
     }
 
