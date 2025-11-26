@@ -65,7 +65,6 @@ public class AdventureUtil {
         return TagResolver.resolver("papi", (argumentQueue, ctx) -> {
             if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
                 Logger.info("PlaceholderAPI is missing, unable to resolve <papi> placeholders");
-
                 Component missing = Component.text("PlaceholderAPI is missing");
                 return selfClosing ? Tag.selfClosingInserting(missing) : Tag.inserting(missing);
             }
@@ -73,13 +72,13 @@ public class AdventureUtil {
             StringBuilder stringBuilder = new StringBuilder();
             while (argumentQueue.hasNext()) {
                 stringBuilder.append(argumentQueue.pop().value());
+                if (argumentQueue.hasNext()) stringBuilder.append(":");
             }
 
             String papiPlaceholder = stringBuilder.toString();
 
-            if (papiPlaceholder.isEmpty()) {
+            if (papiPlaceholder.isEmpty())
                 return Tag.selfClosingInserting(Component.text("<papi:placeholder_missing>"));
-            }
 
             String parsed = PlaceholderAPI.setPlaceholders(player, "%" + papiPlaceholder + "%");
             Component comp = parseMiniMessage(parsed);
