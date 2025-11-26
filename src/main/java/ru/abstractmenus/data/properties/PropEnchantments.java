@@ -1,26 +1,24 @@
 package ru.abstractmenus.data.properties;
 
-import ru.abstractmenus.datatype.TypeInt;
-import ru.abstractmenus.hocon.api.ConfigNode;
-import ru.abstractmenus.hocon.api.serialize.NodeSerializeException;
-import ru.abstractmenus.hocon.api.serialize.NodeSerializer;
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import ru.abstractmenus.api.inventory.Menu;
 import ru.abstractmenus.api.inventory.ItemProperty;
+import ru.abstractmenus.api.inventory.Menu;
+import ru.abstractmenus.datatype.TypeInt;
+import ru.abstractmenus.hocon.api.ConfigNode;
+import ru.abstractmenus.hocon.api.serialize.NodeSerializeException;
+import ru.abstractmenus.hocon.api.serialize.NodeSerializer;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PropEnchantments implements ItemProperty {
-
-    private final Map<Enchantment, TypeInt> enchantments;
-
-    private PropEnchantments(Map<Enchantment, TypeInt> enchantments){
-        this.enchantments = enchantments;
-    }
+public record PropEnchantments(Map<Enchantment, TypeInt> enchantments)
+        implements ItemProperty {
 
     @Override
     public boolean canReplaceMaterial() {
@@ -34,7 +32,7 @@ public class PropEnchantments implements ItemProperty {
 
     @Override
     public void apply(ItemStack itemStack, ItemMeta meta, Player player, Menu menu) {
-        for (Map.Entry<Enchantment, TypeInt> entry : enchantments.entrySet()){
+        for (Map.Entry<Enchantment, TypeInt> entry : enchantments.entrySet()) {
             meta.addEnchant(entry.getKey(), entry.getValue().getInt(player, menu), true);
         }
     }
@@ -46,15 +44,25 @@ public class PropEnchantments implements ItemProperty {
             Map<String, ConfigNode> nodes = node.childrenMap();
             Map<Enchantment, TypeInt> map = new HashMap<>();
 
-            for(Map.Entry<String, ConfigNode> entry : nodes.entrySet()){
-                Enchantment enchantment = Enchantment.getByName(entry.getKey().toUpperCase());
-                if(enchantment != null){
+            RegistryAccess registryAccess = RegistryAccess.registryAccess();
+            var enchantRegistry = registryAccess.getRegistry(RegistryKey.ENCHANTMENT);
+
+            for (Map.Entry<String, ConfigNode> entry : nodes.entrySet()) {
+                String key = entry.getKey();
+                if (!key.contains(":")) {
+                    key = "minecraft:" + key.toLowerCase();
+                }
+
+                NamespacedKey namespacedKey = NamespacedKey.fromString(key);
+                if (namespacedKey == null) continue;
+
+                Enchantment enchantment = enchantRegistry.get(namespacedKey);
+                if (enchantment != null) {
                     map.put(enchantment, entry.getValue().getValue(TypeInt.class));
                 }
             }
 
             return new PropEnchantments(map);
         }
-
     }
 }
